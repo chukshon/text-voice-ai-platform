@@ -14,5 +14,22 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  apiKeys ApiKey[]
+
   @@map("users")
+}
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  name       String    @db.VarChar(255)
+  prefix     String    @db.VarChar(10)
+  keyHash    String    @map("key_hash") @db.VarChar(255)
+  lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz(6)
+  expiresAt  DateTime? @map("expires_at") @db.Timestamptz(6)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("api_keys")
 }
