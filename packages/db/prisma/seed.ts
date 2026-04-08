@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config({ path: "../../.env" });
 
-import { prisma } from "../src";
+import { prisma } from "@repo/db";
 
 async function main() {
   console.log("Seeding...");
