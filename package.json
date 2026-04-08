@@ -6,7 +6,11 @@
   "scripts": {
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "clean": "pnpm -r clean"
+    "clean": "pnpm -r clean",
+    "infra": "docker compose up -d postgres redis rabbitmq minio traefik",
+    "infra:down": "docker compose down",
+    "infra:logs": "docker compose logs -f",
+    "infra:ps": "docker compose ps"
   },
   "keywords": [],
   "author": "",
