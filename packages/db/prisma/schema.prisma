@@ -81,5 +81,22 @@ model Voice {
   userId String? @map("user_id")
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  VoiceSample VoiceSample[]
+
   @@map("voices")
+}
+
+model VoiceSample {
+  id          String   @id @default(uuid())
+  fileName    String   @map("file_name") @db.VarChar(255)
+  mimeType    String   @map("mime_type") @db.VarChar(100)
+  sizeBytes   Int      @map("size_bytes")
+  durationMs  Int?     @map("duration_ms")
+  storagePath String   @map("storage_path") @db.VarChar(1024)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  voiceId String @map("voice_id")
+  voice   Voice  @relation(fields: [voiceId], references: [id], onDelete: Cascade)
+
+  @@map("voice_samples")
 }
