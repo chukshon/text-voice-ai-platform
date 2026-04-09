@@ -1,3 +1,7 @@
+// Logger
 export { createLogger } from "./logger.js";
 export type { Logger } from "winston";
-export { createEnv } from "./env.js";
+
+// Zod
+export * from "./env.js";
+export { z } from "zod";
