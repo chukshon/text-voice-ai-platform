@@ -6,6 +6,22 @@ datasource db {
   provider = "postgresql"
 }
 
+enum VoiceCategoryEnum {
+  PREMADE @map("premade")
+  CLONED  @map("cloned")
+  CUSTOM  @map("custom")
+
+  @@map("voice_category")
+}
+
+enum VoiceGenderEnum {
+  MALE    @map("male")
+  FEMALE  @map("female")
+  NEUTRAL @map("neutral")
+
+  @@map("voice_gender")
+}
+
 model User {
   id           String   @id @default(uuid())
   email        String   @unique @db.VarChar(255)
@@ -16,6 +32,7 @@ model User {
 
   apiKeys       ApiKey[]
   refreshTokens RefreshToken[]
+  voices        Voice[]
 
   @@map("users")
 }
@@ -45,4 +62,24 @@ model RefreshToken {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
+}
+
+model Voice {
+  id          String            @id @default(uuid())
+  name        String            @db.VarChar(255)
+  description String?
+  category    VoiceCategoryEnum @default(PREMADE)
+  language    String            @default("en") @db.VarChar(10)
+  gender      VoiceGenderEnum   @default(NEUTRAL)
+  accent      String?           @db.VarChar(100)
+  previewUrl  String?           @map("preview_url") @db.VarChar(1024)
+  isPublic    Boolean           @default(true) @map("is_public")
+  metadata    Json              @default("{}")
+  createdAt   DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  userId String? @map("user_id")
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("voices")
 }
