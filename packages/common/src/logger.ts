@@ -27,7 +27,6 @@ export function createLogger(options: CreateLoggerOptions): Logger {
   return winston.createLogger({
     level: process.env.LOG_LEVEL ?? "info",
     silent: process.env.NODE_ENV === "test",
-    defaultMeta: { service: name },
     format: isProd ? prodFormat : devFormat,
     transports: [new winston.transports.Console()],
     ...rest,
