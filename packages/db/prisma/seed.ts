@@ -1,13 +1,12 @@
 import { config } from "dotenv";
 config({ path: "../../.env" });
-
-import { prisma } from "@repo/db";
 import { createLogger } from "@repo/common";
 import { VoiceCategoryEnum, VoiceGenderEnum } from "@prisma/client";
 
 const logger = createLogger({ name: "db-seed" });
 
 async function main() {
+  const { prisma } = await import("@repo/db");
   logger.info("Seeding...");
 
   await prisma.$transaction([
@@ -79,5 +78,6 @@ main()
     process.exitCode = 1;
   })
   .finally(async () => {
+    const { prisma } = await import("@repo/db");
     await prisma.$disconnect();
   });
