@@ -135,5 +135,22 @@ model TtsJob {
   voiceId String @map("voice_id")
   voice   Voice  @relation(fields: [voiceId], references: [id])
 
+  audioFile AudioFile[]
+
   @@map("tts_jobs")
+}
+
+model AudioFile {
+  id          String   @id @default(uuid())
+  fileName    String   @map("file_name") @db.VarChar(255)
+  mimeType    String   @map("mime_type") @db.VarChar(100)
+  sizeBytes   Int      @map("size_bytes")
+  durationMs  Int?     @map("duration_ms")
+  storagePath String   @map("storage_path") @db.VarChar(1024)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  jobId String @map("job_id")
+  job   TtsJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@map("audio_files")
 }
