@@ -15,7 +15,8 @@
     "db:migrate:dev": "pnpm --filter @repo/db migrate:dev",
     "db:migrate:deploy": "pnpm --filter @repo/db migrate:deploy",
     "db:seed": "pnpm --filter @repo/db seed",
-    "db:studio": "pnpm --filter @repo/db studio"
+    "db:studio": "pnpm --filter @repo/db studio",
+    "dev:auth": "pnpm --filter auth dev"
   },
   "keywords": [],
   "author": "",
