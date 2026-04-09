@@ -10,7 +10,12 @@
     "infra": "docker compose up -d postgres redis rabbitmq minio traefik",
     "infra:down": "docker compose down",
     "infra:logs": "docker compose logs -f",
-    "infra:ps": "docker compose ps"
+    "infra:ps": "docker compose ps",
+    "db:generate": "pnpm --filter @repo/db generate",
+    "db:migrate:dev": "pnpm --filter @repo/db migrate:dev",
+    "db:migrate:deploy": "pnpm --filter @repo/db migrate:deploy",
+    "db:seed": "pnpm --filter @repo/db seed",
+    "db:studio": "pnpm --filter @repo/db studio"
   },
   "keywords": [],
   "author": "",
