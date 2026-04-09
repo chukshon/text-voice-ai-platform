@@ -49,7 +49,7 @@ model User {
   apiKeys       ApiKey[]
   refreshTokens RefreshToken[]
   voices        Voice[]
-  TtsJob        TtsJob[]
+  voiceJobs     VoiceJob[]
 
   @@map("users")
 }
@@ -93,13 +93,13 @@ model Voice {
   isPublic    Boolean           @default(true) @map("is_public")
   metadata    Json              @default("{}")
   createdAt   DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime          @default(now()) @map("updated_at") @db.Timestamptz(6)
+  updatedAt   DateTime          @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   userId String? @map("user_id")
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  VoiceSample VoiceSample[]
-  TtsJob      TtsJob[]
+  voiceSamples VoiceSample[]
+  voiceJobs    VoiceJob[]
 
   @@map("voices")
 }
@@ -119,7 +119,7 @@ model VoiceSample {
   @@map("voice_samples")
 }
 
-model TtsJob {
+model VoiceJob {
   id           String        @id @default(uuid())
   type         JobTypeEnum   @default(TTS)
   status       JobStatusEnum @default(PENDING)
@@ -128,16 +128,16 @@ model TtsJob {
   error        String?
   metadata     Json          @default("{}")
   createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime      @default(now()) @map("updated_at") @db.Timestamptz(6)
+  updatedAt    DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   userId  String @map("user_id")
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   voiceId String @map("voice_id")
   voice   Voice  @relation(fields: [voiceId], references: [id])
 
-  audioFile AudioFile[]
+  audioFiles AudioFile[]
 
-  @@map("tts_jobs")
+  @@map("voice_jobs")
 }
 
 model AudioFile {
@@ -149,8 +149,8 @@ model AudioFile {
   storagePath String   @map("storage_path") @db.VarChar(1024)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  jobId String @map("job_id")
-  job   TtsJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId String   @map("job_id")
+  job   VoiceJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@map("audio_files")
 }
