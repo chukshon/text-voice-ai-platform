@@ -22,6 +22,22 @@ enum VoiceGenderEnum {
   @@map("voice_gender")
 }
 
+enum JobStatusEnum {
+  PENDING    @map("pending")
+  PROCESSING @map("processing")
+  COMPLETED  @map("completed")
+  FAILED     @map("failed")
+
+  @@map("job_status")
+}
+
+enum JobTypeEnum {
+  TTS   @map("tts")
+  CLONE @map("clone")
+
+  @@map("job_type")
+}
+
 model User {
   id           String   @id @default(uuid())
   email        String   @unique @db.VarChar(255)
@@ -33,6 +49,7 @@ model User {
   apiKeys       ApiKey[]
   refreshTokens RefreshToken[]
   voices        Voice[]
+  TtsJob        TtsJob[]
 
   @@map("users")
 }
@@ -81,12 +98,13 @@ model Voice {
   userId String? @map("user_id")
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  VoiceSamples VoiceSamples[]
+  VoiceSample VoiceSample[]
+  TtsJob      TtsJob[]
 
   @@map("voices")
 }
 
-model VoiceSamples {
+model VoiceSample {
   id          String   @id @default(uuid())
   fileName    String   @map("file_name") @db.VarChar(255)
   mimeType    String   @map("mime_type") @db.VarChar(100)
@@ -99,4 +117,23 @@ model VoiceSamples {
   voice   Voice  @relation(fields: [voiceId], references: [id], onDelete: Cascade)
 
   @@map("voice_samples")
+}
+
+model TtsJob {
+  id           String        @id @default(uuid())
+  type         JobTypeEnum   @default(TTS)
+  status       JobStatusEnum @default(PENDING)
+  inputText    String?       @map("input_text")
+  outputFileId String?       @map("output_file_id")
+  error        String?
+  metadata     Json          @default("{}")
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime      @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  userId  String @map("user_id")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceId String @map("voice_id")
+  voice   Voice  @relation(fields: [voiceId], references: [id])
+
+  @@map("tts_jobs")
 }
