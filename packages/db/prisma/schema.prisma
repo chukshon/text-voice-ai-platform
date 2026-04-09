@@ -81,12 +81,12 @@ model Voice {
   userId String? @map("user_id")
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  VoiceSample VoiceSample[]
+  VoiceSamples VoiceSamples[]
 
   @@map("voices")
 }
 
-model VoiceSample {
+model VoiceSamples {
   id          String   @id @default(uuid())
   fileName    String   @map("file_name") @db.VarChar(255)
   mimeType    String   @map("mime_type") @db.VarChar(100)
