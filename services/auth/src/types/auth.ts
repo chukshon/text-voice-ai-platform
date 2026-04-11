@@ -9,3 +9,8 @@ export type AuthResponseT = {
 };
 
 export type RefreshAuthResponseT = Omit<AuthResponseT, "user">;
+
+export interface AuthenticatedUser {
+  id: string;
+  email?: string;
+}
