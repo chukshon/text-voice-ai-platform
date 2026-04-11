@@ -161,7 +161,7 @@ export const refreshTokenService = async (
   };
 };
 
-export const currentUserService = async (userId: string): Promise<UserDataT> => {
+export const getCurrentUserService = async (userId: string): Promise<UserDataT> => {
   const existingUser = await prisma.user.findUnique({
     where: {
       id: userId,

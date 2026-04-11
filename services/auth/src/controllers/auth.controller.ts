@@ -1,7 +1,13 @@
 import { RequestHandler } from "express";
 import { asyncHandler, HTTPSTATUS } from "@repo/common";
 import { RegisterInputT, LoginInputT, RefreshTokenInputT } from "@/validators/auth";
-import { registerService, loginService, refreshTokenService } from "@/services/auth.service";
+import {
+  registerService,
+  loginService,
+  refreshTokenService,
+  getCurrentUserService,
+} from "@/services/auth.service";
+import { getAuthenticatedUser } from "@/utils/auth";
 
 export const registerHandler: RequestHandler = asyncHandler(async (req, res) => {
   const payload = req.body as RegisterInputT;
@@ -32,5 +38,15 @@ export const refreshTokenHandler: RequestHandler = asyncHandler(async (req, res)
 
   res.status(HTTPSTATUS.CREATED).json({
     data: result,
+  });
+});
+
+export const getCurrentUserHandler: RequestHandler = asyncHandler(async (req, res) => {
+  const user = getAuthenticatedUser(req);
+
+  const result = await getCurrentUserService(user.id);
+
+  res.status(HTTPSTATUS.CREATED).json({
+    user: result,
   });
 });

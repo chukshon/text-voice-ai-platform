@@ -1,4 +1,10 @@
-import { loginHandler, registerHandler, refreshTokenHandler } from "@/controllers/auth.controller";
+import {
+  loginHandler,
+  registerHandler,
+  refreshTokenHandler,
+  getCurrentUserHandler,
+} from "@/controllers/auth.controller";
+import { authenticateUser } from "@/middlewares/authenticate-user";
 import { registerInputSchema, loginInputSchema, refreshTokenSchema } from "@/validators/auth";
 import { validateRequest } from "@repo/common";
 import { Router } from "express";
@@ -12,3 +18,4 @@ authRoutes.post(
   validateRequest({ body: refreshTokenSchema }),
   refreshTokenHandler,
 );
+authRoutes.get("/me", authenticateUser, getCurrentUserHandler);
