@@ -1,14 +1,14 @@
-import { RegisterInputT } from "@/validators/auth";
+import { LoginInputT, RegisterInputT } from "@/validators/auth";
 import { prisma } from "@repo/db";
-import { RegisterResponseT } from "@/types/auth";
-import { BadRequestException } from "@repo/common";
-import { hashPassword } from "@/lib/bcrypt";
+import { AuthResponseT } from "@/types/auth";
+import { BadRequestException, UnauthorizedException } from "@repo/common";
+import { hashPassword, verifyPassword } from "@/lib/bcrypt";
 import { generateAccessToken, generateRefreshToken } from "@/lib/jwt";
 import { logger } from "@/utils/logger";
 
 const REFRESH_TOKEN_TTL_DAYS = 30;
 
-export const registerService = async (payload: RegisterInputT): Promise<RegisterResponseT> => {
+export const registerService = async (payload: RegisterInputT): Promise<AuthResponseT> => {
   const { name: payloadName, email: payloadEmail, password: payloadPassword } = payload;
 
   const existingUser = await prisma.user.findUnique({
@@ -59,6 +59,47 @@ export const registerService = async (payload: RegisterInputT): Promise<Register
       refreshToken,
     };
   });
+};
+export const loginService = async (payload: LoginInputT): Promise<AuthResponseT> => {
+  const { email: payloadEmail, password: payloadPassword } = payload;
+
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email: payloadEmail,
+    },
+  });
+
+  if (!existingUser) {
+    throw new BadRequestException("User already exists");
+  }
+
+  const isPasswordValid = await verifyPassword(payloadPassword, existingUser.passwordHash);
+
+  if (!isPasswordValid) {
+    throw new UnauthorizedException("Invalid email or password");
+  }
+
+  const refreshTokenRecord = await createRefreshToken(existingUser.id);
+
+  const accessToken = generateAccessToken({
+    sub: existingUser.id,
+    email: existingUser.email,
+  });
+  const refreshToken = generateRefreshToken({
+    sub: existingUser.id,
+    tokenId: refreshTokenRecord.id,
+  });
+
+  return {
+    user: {
+      id: existingUser.id,
+      name: existingUser.name,
+      email: existingUser.email,
+      createdAt: existingUser.createdAt,
+    },
+    accessToken,
+    refreshToken,
+  };
 };
 
 const createRefreshToken = async (userId: string) => {
