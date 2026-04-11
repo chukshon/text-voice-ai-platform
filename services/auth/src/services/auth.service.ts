@@ -1,6 +1,6 @@
 import { LoginInputT, RegisterInputT, RefreshTokenInputT } from "@/validators/auth";
 import { prisma } from "@repo/db";
-import { AuthResponseT, RefreshAuthResponseT } from "@/types/auth";
+import { AuthResponseT, RefreshAuthResponseT, UserDataT } from "@/types/auth";
 import { BadRequestException, UnauthorizedException } from "@repo/common";
 import { hashPassword, verifyPassword } from "@/lib/bcrypt";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "@/lib/jwt";
@@ -159,6 +159,24 @@ export const refreshTokenService = async (
     accessToken,
     refreshToken: newRefreshToken,
   };
+};
+
+export const currentUserService = async (userId: string): Promise<UserDataT> => {
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    omit: {
+      passwordHash: true,
+      updatedAt: true,
+    },
+  });
+
+  if (!existingUser) {
+    throw new BadRequestException("Invalid email or password");
+  }
+
+  return existingUser;
 };
 
 const createRefreshToken = async (userId: string) => {
