@@ -34,3 +34,6 @@ coverage/
 # Misc
 *.tgz
 .cache/
+
+# Prisma client (custom output; run `pnpm db:generate` or `@repo/db` build)
+packages/db/src/generated/

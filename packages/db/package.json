@@ -9,17 +9,21 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./generated/prisma": {
+      "import": "./dist/generated/prisma/index.js",
+      "types": "./dist/generated/prisma/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsc",
-    "typecheck": "tsc --noEmit",
+    "build": "prisma generate && tsc && node --eval \"require('node:fs').cpSync('src/generated','dist/generated',{recursive:true})\"",
+    "typecheck": "prisma generate && tsc --noEmit",
     "generate": "prisma generate",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
-    "clean": "rm -rf dist node_modules/.prisma"
+    "clean": "rm -rf dist node_modules/.prisma src/generated"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
