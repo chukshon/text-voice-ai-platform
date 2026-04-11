@@ -46,7 +46,7 @@ export const getCurrentUserHandler: RequestHandler = asyncHandler(async (req, re
 
   const result = await getCurrentUserService(user.id);
 
-  res.status(HTTPSTATUS.CREATED).json({
+  res.status(HTTPSTATUS.OK).json({
     user: result,
   });
 });
