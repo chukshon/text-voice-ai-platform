@@ -111,15 +111,19 @@ export const refreshTokenService = async (
   const refreshTokenPayload = verifyRefreshToken(refreshToken);
 
   if (!refreshTokenPayload) {
-    throw new UnauthorizedException("Invalid refresh token");
+    logger.error(refreshTokenPayload, "invalid refresh token");
+    throw new UnauthorizedException("Invalid refresh token payload");
   }
 
   const refreshTokenRecord = await prisma.refreshToken.findFirst({
-    where: { tokenHash: refreshTokenPayload.tokenId, userId: refreshTokenPayload.sub },
+    where: { id: refreshTokenPayload.tokenId, userId: refreshTokenPayload.sub },
   });
 
   if (!refreshTokenRecord) {
-    throw new UnauthorizedException("Invalid refresh token");
+    logger.error("invalid refresh token", {
+      refreshTokenPayload,
+    });
+    throw new UnauthorizedException("Invalid refresh token record");
   }
 
   if (refreshTokenRecord.expiresAt.getTime() < Date.now()) {
