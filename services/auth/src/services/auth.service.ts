@@ -70,7 +70,7 @@ export const loginService = async (payload: LoginInputT): Promise<AuthResponseT>
   });
 
   if (!existingUser) {
-    throw new BadRequestException("User already exists");
+    throw new BadRequestException("Invalid email or password");
   }
 
   const isPasswordValid = await verifyPassword(payloadPassword, existingUser.passwordHash);
