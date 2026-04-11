@@ -1,9 +1,9 @@
-import { LoginInputT, RegisterInputT } from "@/validators/auth";
+import { LoginInputT, RegisterInputT, RefreshTokenInputT } from "@/validators/auth";
 import { prisma } from "@repo/db";
-import { AuthResponseT } from "@/types/auth";
+import { AuthResponseT, RefreshAuthResponseT } from "@/types/auth";
 import { BadRequestException, UnauthorizedException } from "@repo/common";
 import { hashPassword, verifyPassword } from "@/lib/bcrypt";
-import { generateAccessToken, generateRefreshToken } from "@/lib/jwt";
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "@/lib/jwt";
 import { logger } from "@/utils/logger";
 
 const REFRESH_TOKEN_TTL_DAYS = 30;
@@ -60,6 +60,7 @@ export const registerService = async (payload: RegisterInputT): Promise<AuthResp
     };
   });
 };
+
 export const loginService = async (payload: LoginInputT): Promise<AuthResponseT> => {
   const { email: payloadEmail, password: payloadPassword } = payload;
 
@@ -99,6 +100,64 @@ export const loginService = async (payload: LoginInputT): Promise<AuthResponseT>
     },
     accessToken,
     refreshToken,
+  };
+};
+
+export const refreshTokenService = async (
+  payload: RefreshTokenInputT,
+): Promise<RefreshAuthResponseT> => {
+  const { refreshToken } = payload;
+
+  const refreshTokenPayload = verifyRefreshToken(refreshToken);
+
+  if (!refreshTokenPayload) {
+    throw new UnauthorizedException("Invalid refresh token");
+  }
+
+  const refreshTokenRecord = await prisma.refreshToken.findFirst({
+    where: { tokenHash: refreshTokenPayload.tokenId, userId: refreshTokenPayload.sub },
+  });
+
+  if (!refreshTokenRecord) {
+    throw new UnauthorizedException("Invalid refresh token");
+  }
+
+  if (refreshTokenRecord.expiresAt.getTime() < Date.now()) {
+    await prisma.refreshToken.delete({
+      where: { id: refreshTokenRecord.id },
+    });
+    throw new UnauthorizedException("Expired refresh token");
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      id: refreshTokenPayload.sub,
+    },
+  });
+
+  if (!existingUser) {
+    throw new BadRequestException("User not found");
+  }
+
+  await prisma.refreshToken.delete({
+    where: { id: refreshTokenRecord.id },
+  });
+
+  const newTokenRecord = await createRefreshToken(existingUser.id);
+
+  const accessToken = generateAccessToken({
+    sub: existingUser.id,
+    email: existingUser.email,
+  });
+
+  const newRefreshToken = generateRefreshToken({
+    sub: existingUser.id,
+    tokenId: newTokenRecord.id,
+  });
+
+  return {
+    accessToken,
+    refreshToken: newRefreshToken,
   };
 };
 
