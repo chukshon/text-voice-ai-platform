@@ -19,12 +19,14 @@
     "@repo/common": "workspace:*",
     "@repo/db": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
