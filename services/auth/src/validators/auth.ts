@@ -14,5 +14,10 @@ export const loginInputSchema = z.object({
   password: passwordSchema,
 });
 
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().trim().min(32),
+});
+
 export type RegisterInputT = z.infer<typeof registerInputSchema>;
 export type LoginInputT = z.infer<typeof loginInputSchema>;
+export type RefreshTokenInputT = z.infer<typeof refreshTokenSchema>;
