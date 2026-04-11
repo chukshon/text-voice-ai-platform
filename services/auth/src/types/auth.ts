@@ -7,3 +7,5 @@ export type AuthResponseT = {
   accessToken: string;
   refreshToken: string;
 };
+
+export type RefreshAuthResponseT = Omit<AuthResponseT, "user">;
