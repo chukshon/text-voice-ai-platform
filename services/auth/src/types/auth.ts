@@ -2,7 +2,7 @@ import type { User } from "@repo/db";
 
 export type UserDataT = Omit<User, "passwordHash" | "updatedAt">;
 
-export type RegisterResponseT = {
+export type AuthResponseT = {
   user: UserDataT;
   accessToken: string;
   refreshToken: string;
