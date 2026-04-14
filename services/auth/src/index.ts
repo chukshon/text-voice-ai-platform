@@ -11,7 +11,7 @@ const main = async () => {
     const app = createApp();
     const server = createServer(app);
 
-    const port = env.PORT;
+    const port = env.AUTH_SERVICE_PORT;
 
     server.listen(port, () => {
       logger.info(`Server is running on port ${port}`);
