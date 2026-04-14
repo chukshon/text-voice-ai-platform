@@ -54,6 +54,9 @@ importers:
       '@repo/common':
         specifier: workspace:*
         version: link:../common
+      dotenv:
+        specifier: ^17.0.0
+        version: 17.4.1
       pg:
         specifier: ^8.20.0
         version: 8.20.0
@@ -64,9 +67,6 @@ importers:
       '@types/pg':
         specifier: ^8.20.0
         version: 8.20.0
-      dotenv:
-        specifier: ^17.0.0
-        version: 17.4.1
       prisma:
         specifier: ^7.7.0
         version: 7.7.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@6.0.2)
@@ -78,6 +78,49 @@ importers:
         version: 6.0.2
 
   services/auth:
+    dependencies:
+      '@repo/common':
+        specifier: workspace:*
+        version: link:../../packages/common
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@types/jsonwebtoken':
+        specifier: ^9.0.10
+        version: 9.0.10
+      bcrypt:
+        specifier: ^6.0.0
+        version: 6.0.0
+      dotenv:
+        specifier: ^16.6.1
+        version: 16.6.1
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
+      helmet:
+        specifier: ^8.1.0
+        version: 8.1.0
+      jsonwebtoken:
+        specifier: ^9.0.3
+        version: 9.0.3
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^6.0.0
+        version: 6.0.0
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      tsc-alias:
+        specifier: ^1.8.16
+        version: 1.8.16
+      tsconfig-paths:
+        specifier: ^4.2.0
+        version: 4.2.0
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
+
+  services/voice:
     dependencies:
       '@repo/common':
         specifier: workspace:*
