@@ -32,3 +32,26 @@ export const createApiKeyService = async (
     apiKey: key,
   };
 };
+
+export const listAllApiKeysService = async (userId: string) => {
+  const apiKeys = await prisma.apiKey.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      id: true,
+      name: true,
+      prefix: true,
+      lastUsedAt: true,
+      expiresAt: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return {
+    apiKeys,
+  };
+};
