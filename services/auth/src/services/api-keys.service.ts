@@ -59,14 +59,17 @@ export const listAllApiKeysService = async (userId: string) => {
 };
 
 export const deleteApiKeyService = async (apiKeyId: string, userId: string) => {
-  const deletedApiKey = await prisma.apiKey.delete({
-    where: {
-      id: apiKeyId,
-      userId,
-    },
-  });
-
-  if (!deletedApiKey) {
+  try {
+    await prisma.apiKey.delete({
+      where: {
+        id: apiKeyId,
+        userId,
+      },
+      select: {
+        id: true,
+      },
+    });
+  } catch (err) {
     logger.error("Api Key not found", {
       apiKeyId,
       userId,
