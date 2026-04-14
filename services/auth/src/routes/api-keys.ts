@@ -1,4 +1,4 @@
-import { createApiKeyHandler } from "@/controllers/api-keys.controller";
+import { createApiKeyHandler, listAllApiKeysHandler } from "@/controllers/api-keys.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
 import { createApiKeySchema } from "@/validators/api-keys";
 import { validateRequest } from "@repo/common";
@@ -12,3 +12,5 @@ apiKeyRoutes.post(
   authenticateUser,
   createApiKeyHandler,
 );
+
+apiKeyRoutes.get("/", authenticateUser, listAllApiKeysHandler);

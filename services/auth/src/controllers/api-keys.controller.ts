@@ -7,11 +7,23 @@ export const createApiKeyHandler: RequestHandler = asyncHandler(async (req, res)
   const payload = req.body as CreateApiKeyInputT;
   const userId = req.user?.id as string;
 
-  const result = await createApiKeyService(payload, userId);
+  const createdApiKey = await createApiKeyService(payload, userId);
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
     message: "Api Key Created successfully",
-    data: result,
+    data: createdApiKey,
+  });
+});
+
+export const listAllApiKeysHandler: RequestHandler = asyncHandler(async (req, res) => {
+  const payload = req.body as CreateApiKeyInputT;
+  const userId = req.user?.id as string;
+
+  const apiKeys = await createApiKeyService(payload, userId);
+
+  res.status(HTTPSTATUS.CREATED).json({
+    success: true,
+    data: apiKeys,
   });
 });
