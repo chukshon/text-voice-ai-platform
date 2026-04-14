@@ -2,6 +2,8 @@ import { CreateApiKeyInputT } from "@/validators/api-keys";
 import { prisma } from "@repo/db";
 import { CreateApiKeyResponseT } from "@/types/api-keys";
 import { generateApiKey, hashToken } from "@/utils";
+import { logger } from "@/utils/logger";
+import { NotFoundException } from "@repo/common";
 
 export const createApiKeyService = async (
   payload: CreateApiKeyInputT,
@@ -54,4 +56,21 @@ export const listAllApiKeysService = async (userId: string) => {
   return {
     apiKeys,
   };
+};
+
+export const deleteApiKeyService = async (apiKeyId: string, userId: string) => {
+  const deletedApiKey = await prisma.apiKey.delete({
+    where: {
+      id: apiKeyId,
+      userId,
+    },
+  });
+
+  if (!deletedApiKey) {
+    logger.error("Api Key not found", {
+      apiKeyId,
+      userId,
+    });
+    throw new NotFoundException("Api Key not found");
+  }
 };
