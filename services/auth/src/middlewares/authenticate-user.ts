@@ -2,11 +2,11 @@ import { env } from "@/config/env";
 import { Request, Response, NextFunction, type RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "@repo/db";
-
 import { AuthenticatedUser } from "@/types/auth";
 
 import { AppError, HTTPSTATUS, UnauthorizedException } from "@repo/common";
 import { hashToken } from "@/utils";
+import { logger } from "@/utils/logger";
 
 interface AccessTokenPayload {
   sub: string;
@@ -68,15 +68,15 @@ async function authenticateApiKey(key: string, req: Request, _res: Response) {
     throw new UnauthorizedException("User not found");
   }
 
-  // Update lastUsedAt (fire-and-forget — don't slow down the request)
-  await prisma.apiKey.update({
-    where: {
-      id: existingApiKey.id,
-    },
-    data: {
-      lastUsedAt: new Date(),
-    },
-  });
+  void prisma.apiKey
+    .update({
+      where: { id: existingApiKey.id },
+      data: { lastUsedAt: new Date() },
+    })
+    .catch((err) => {
+      // log only; don't break auth flow
+      logger?.warn?.("Failed to update api key lastUsedAt", { err, apiKeyId: existingApiKey.id });
+    });
 
   req.user = { id: existingUser.id, email: existingUser.email };
 }
