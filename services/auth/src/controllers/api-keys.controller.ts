@@ -6,7 +6,6 @@ import {
   deleteApiKeyService,
   listAllApiKeysService,
 } from "@/services/api-keys.service";
-import { ParamsIdT } from "@/validators/shared";
 
 export const createApiKeyHandler: RequestHandler = asyncHandler(async (req, res) => {
   const payload = req.body as CreateApiKeyInputT;
@@ -29,5 +28,17 @@ export const listAllApiKeysHandler: RequestHandler = asyncHandler(async (req, re
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
     data: apiKeys,
+  });
+});
+
+export const deleteApiKeyHandler: RequestHandler = asyncHandler(async (req, res) => {
+  const apiKeyId = req.params.id as string;
+  const userId = req.user?.id as string;
+
+  await deleteApiKeyService(apiKeyId, userId);
+
+  res.status(HTTPSTATUS.OK).json({
+    success: true,
+    message: "API key revoked",
   });
 });

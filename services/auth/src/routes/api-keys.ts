@@ -1,6 +1,11 @@
-import { createApiKeyHandler, listAllApiKeysHandler } from "@/controllers/api-keys.controller";
+import {
+  createApiKeyHandler,
+  listAllApiKeysHandler,
+  deleteApiKeyHandler,
+} from "@/controllers/api-keys.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
 import { createApiKeySchema } from "@/validators/api-keys";
+import { paramsIdSchema } from "@/validators/shared";
 import { validateRequest } from "@repo/common";
 import { Router } from "express";
 
@@ -14,3 +19,8 @@ apiKeyRoutes.post(
 );
 
 apiKeyRoutes.get("/", authenticateUser, listAllApiKeysHandler);
+apiKeyRoutes.delete(
+  "/delete/:id",
+  validateRequest({ params: paramsIdSchema }),
+  deleteApiKeyHandler,
+);
