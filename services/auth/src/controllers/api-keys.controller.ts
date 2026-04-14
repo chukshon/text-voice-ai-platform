@@ -1,7 +1,12 @@
 import { RequestHandler } from "express";
 import { asyncHandler, HTTPSTATUS } from "@repo/common";
 import { CreateApiKeyInputT } from "@/validators/api-keys";
-import { createApiKeyService } from "@/services/api-keys.service";
+import {
+  createApiKeyService,
+  deleteApiKeyService,
+  listAllApiKeysService,
+} from "@/services/api-keys.service";
+import { ParamsIdT } from "@/validators/shared";
 
 export const createApiKeyHandler: RequestHandler = asyncHandler(async (req, res) => {
   const payload = req.body as CreateApiKeyInputT;
@@ -17,10 +22,9 @@ export const createApiKeyHandler: RequestHandler = asyncHandler(async (req, res)
 });
 
 export const listAllApiKeysHandler: RequestHandler = asyncHandler(async (req, res) => {
-  const payload = req.body as CreateApiKeyInputT;
   const userId = req.user?.id as string;
 
-  const apiKeys = await createApiKeyService(payload, userId);
+  const apiKeys = await listAllApiKeysService(userId);
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
