@@ -5,8 +5,9 @@ import { createApiKeyService } from "@/services/api-keys.service";
 
 export const createApiKeyHandler: RequestHandler = asyncHandler(async (req, res) => {
   const payload = req.body as CreateApiKeyInputT;
+  const userId = req.user?.id as string;
 
-  const result = await createApiKeyService(payload);
+  const result = await createApiKeyService(payload, userId);
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
