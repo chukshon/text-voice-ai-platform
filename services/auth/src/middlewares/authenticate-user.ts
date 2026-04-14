@@ -38,11 +38,11 @@ const validateAccessTokenPayload = (payload: AccessTokenPayload): AuthenticatedU
 };
 
 async function authenticateApiKey(key: string, req: Request, _res: Response) {
-  const ApikeyHash = hashToken(key);
+  const apiKeyHash = hashToken(key);
 
   const existingApiKey = await prisma.apiKey.findUnique({
     where: {
-      keyHash: ApikeyHash,
+      keyHash: apiKeyHash,
     },
   });
 
@@ -54,7 +54,7 @@ async function authenticateApiKey(key: string, req: Request, _res: Response) {
     throw new UnauthorizedException("API key has expired");
   }
 
-  const existingUser = await prisma.user.findFirst({
+  const existingUser = await prisma.user.findUnique({
     where: {
       id: existingApiKey.userId,
     },
@@ -81,13 +81,19 @@ async function authenticateApiKey(key: string, req: Request, _res: Response) {
   req.user = { id: existingUser.id, email: existingUser.email };
 }
 
-export const authenticateUser: RequestHandler = (
+export const authenticateUser: RequestHandler = async (
   req: Request,
   _res: Response,
   next: NextFunction,
 ) => {
   try {
-    const token = parseAuthorizationHeader(req.headers.authorization);
+    const token = parseAuthorizationHeader(req.headers.authorization).trim();
+
+    if (token.startsWith("xi_")) {
+      await authenticateApiKey(token, req, _res);
+      return next();
+    }
+
     const payload = jwt.verify(token, env.JWT_SECRET) as AccessTokenPayload;
     const user = validateAccessTokenPayload(payload);
     req.user = user;
