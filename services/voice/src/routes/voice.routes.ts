@@ -1,4 +1,8 @@
-import { createVoiceHandler, listUserVoicesHandler } from "@/controllers/voice.controller";
+import {
+  createVoiceHandler,
+  getUserVoiceById,
+  listUserVoicesHandler,
+} from "@/controllers/voice.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
 import { createVoiceSchema } from "@/validators/voice";
 import { validateRequest } from "@repo/common";
@@ -14,3 +18,4 @@ voiceRoutes.post(
 );
 
 voiceRoutes.get("/", authenticateUser, listUserVoicesHandler);
+voiceRoutes.get("/:id", authenticateUser, getUserVoiceById);
