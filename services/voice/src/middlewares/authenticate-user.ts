@@ -1,12 +1,10 @@
-import { env } from "@/config/env";
 import { Request, Response, NextFunction, type RequestHandler } from "express";
-import jwt from "jsonwebtoken";
 import { prisma } from "@repo/db";
 import { AuthenticatedUser } from "@/types/auth";
-
 import { AppError, HTTPSTATUS, UnauthorizedException } from "@repo/common";
 import { hashToken } from "@/utils";
 import { logger } from "@/utils/logger";
+import { verifyAccessToken } from "@/lib/jwt";
 
 interface AccessTokenPayload {
   sub: string;
@@ -94,7 +92,7 @@ export const authenticateUser: RequestHandler = async (
       return next();
     }
 
-    const payload = jwt.verify(token, env.JWT_SECRET) as AccessTokenPayload;
+    const payload = verifyAccessToken(token);
     const user = validateAccessTokenPayload(payload);
     req.user = user;
     next();
