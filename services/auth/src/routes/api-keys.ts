@@ -22,5 +22,6 @@ apiKeyRoutes.get("/", authenticateUser, listAllApiKeysHandler);
 apiKeyRoutes.delete(
   "/delete/:id",
   validateRequest({ params: paramsIdSchema }),
+  authenticateUser,
   deleteApiKeyHandler,
 );
