@@ -1,10 +1,11 @@
 import { RequestHandler } from "express";
 import { asyncHandler, HTTPSTATUS } from "@repo/common";
-import { CreateVoiceInputT } from "@/validators/voice";
+import { CreateVoiceInputT, UpdateVoiceInputT } from "@/validators/voice";
 import {
   createVoiceService,
   listUserVoicesService,
   getUserVoiceByIdService,
+  updateUserVoiceByIdService,
 } from "@/services/voice.service";
 
 export const createVoiceHandler: RequestHandler = asyncHandler(async (req, res) => {
@@ -15,7 +16,7 @@ export const createVoiceHandler: RequestHandler = asyncHandler(async (req, res) 
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
-    message: "Voice Created successfully",
+    message: "Voice Created",
     data: createdVoice,
   });
 });
@@ -31,14 +32,28 @@ export const listUserVoicesHandler: RequestHandler = asyncHandler(async (req, re
   });
 });
 
-export const getUserVoiceById: RequestHandler = asyncHandler(async (req, res) => {
+export const getUserVoiceByIdHandler: RequestHandler = asyncHandler(async (req, res) => {
   const currentUserId = req.user?.id as string;
   const voiceId = req.params.id as string;
 
   const userVoice = await getUserVoiceByIdService(voiceId, currentUserId);
 
-  res.status(HTTPSTATUS.CREATED).json({
+  res.status(HTTPSTATUS.OK).json({
     success: true,
     data: userVoice,
+  });
+});
+
+export const updateUserVoiceById: RequestHandler = asyncHandler(async (req, res) => {
+  const currentUserId = req.user?.id as string;
+  const voiceId = req.params.id as string;
+  const payload = req.body as UpdateVoiceInputT;
+
+  const updatedVoice = await updateUserVoiceByIdService(payload, voiceId, currentUserId);
+
+  res.status(HTTPSTATUS.OK).json({
+    success: true,
+    data: updatedVoice,
+    message: "Voice Updated",
   });
 });
