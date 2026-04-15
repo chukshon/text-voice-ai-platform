@@ -1,6 +1,7 @@
 import express, { type Application } from "express";
 import { errorHandlerMiddleware } from "@repo/common";
 import helmet from "helmet";
+import { registerRoutes } from "@/routes";
 
 export const createApp = (): Application => {
   const app = express();
@@ -10,7 +11,7 @@ export const createApp = (): Application => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // registerRoutes(app);
+  registerRoutes(app);
 
   app.use(errorHandlerMiddleware);
 
