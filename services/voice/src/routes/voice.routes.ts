@@ -12,3 +12,5 @@ voiceRoutes.post(
   authenticateUser,
   createVoiceHandler,
 );
+
+voiceRoutes.get("/", authenticateUser, createVoiceHandler);
