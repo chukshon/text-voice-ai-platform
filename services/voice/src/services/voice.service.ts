@@ -83,3 +83,28 @@ export const updateUserVoiceByIdService = async (
 
   return updatedVoice;
 };
+
+export const deleteUserVoiceByIdService = async (voiceId: string, currentUserId: string) => {
+  const existingVoice = await prisma.voice.findFirst({
+    where: {
+      id: voiceId,
+      AND: {
+        userId: currentUserId,
+      },
+    },
+  });
+
+  if (!existingVoice) {
+    logger.error("Voice Not Found", {
+      voiceId,
+      currentUserId,
+    });
+    throw new NotFoundException("Voice not found");
+  }
+
+  await prisma.voice.delete({
+    where: {
+      id: voiceId,
+    },
+  });
+};

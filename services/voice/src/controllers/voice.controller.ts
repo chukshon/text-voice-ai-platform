@@ -6,6 +6,7 @@ import {
   listUserVoicesService,
   getUserVoiceByIdService,
   updateUserVoiceByIdService,
+  deleteUserVoiceByIdService,
 } from "@/services/voice.service";
 
 export const createVoiceHandler: RequestHandler = asyncHandler(async (req, res) => {
@@ -55,5 +56,17 @@ export const updateUserVoiceByIdHandler: RequestHandler = asyncHandler(async (re
     success: true,
     data: updatedVoice,
     message: "Voice Updated",
+  });
+});
+
+export const deleteUserVoiceByIdHandler: RequestHandler = asyncHandler(async (req, res) => {
+  const currentUserId = req.user?.id as string;
+  const voiceId = req.params.id as string;
+
+  await deleteUserVoiceByIdService(voiceId, currentUserId);
+
+  res.status(HTTPSTATUS.OK).json({
+    success: true,
+    message: "Voice Deleted",
   });
 });
