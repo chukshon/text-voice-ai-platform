@@ -1,6 +1,4 @@
-import { env } from "@/config/env";
 import { Request, Response, NextFunction, type RequestHandler } from "express";
-import jwt from "jsonwebtoken";
 import { prisma } from "@repo/db";
 import { AuthenticatedUser } from "@/types/auth";
 import { AppError, HTTPSTATUS, UnauthorizedException } from "@repo/common";
