@@ -1,7 +1,7 @@
 import { z } from "@repo/common";
 import { VoiceGenderEnum, VoiceCategoryEnum } from "@repo/db";
 
-export const listAllVoicesfilterSchema = z.object({
+export const listAllVoicesQuerySchema = z.object({
   searchKeyword: z.string().optional(),
   language: z.string().min(1).max(10).optional(),
   category: z
@@ -20,4 +20,4 @@ export const listAllVoicesfilterSchema = z.object({
   limit: z.coerce.number().int().min(1, "Limit must be greater than 0").optional().default(20),
 });
 
-export type ListAllVoicesFilterT = z.infer<typeof listAllVoicesfilterSchema>;
+export type ListAllVoicesQueryT = z.infer<typeof listAllVoicesQuerySchema>;
