@@ -21,10 +21,15 @@ voiceRoutes.post(
 );
 
 voiceRoutes.get("/", authenticateUser, listUserVoicesHandler);
-voiceRoutes.get("/:id", authenticateUser, getUserVoiceByIdHandler);
+voiceRoutes.get(
+  "/:id",
+  validateRequest({ params: paramsIdSchema }),
+  authenticateUser,
+  getUserVoiceByIdHandler,
+);
 voiceRoutes.put(
   "/:id",
-  validateRequest({ body: updateVoiceSchema }),
+  validateRequest({ params: paramsIdSchema, body: updateVoiceSchema }),
   authenticateUser,
   updateUserVoiceByIdHandler,
 );
