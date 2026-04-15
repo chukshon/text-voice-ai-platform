@@ -1,6 +1,8 @@
 import { ListAllVoicesQueryT } from "@/validators/library";
 import { PaginationT } from "@/types/index";
 import { prisma } from "@repo/db";
+import { logger } from "@/utils/logger";
+import { NotFoundException } from "@repo/common";
 
 export type FiltersT = Omit<ListAllVoicesQueryT, "pageNumber" | "limit">;
 
@@ -79,4 +81,24 @@ export const listAllVoicesService = async (
       skip,
     },
   };
+};
+
+export const getVoiceByIdService = async (voiceId: string) => {
+  const voice = await prisma.voice.findFirst({
+    where: {
+      id: voiceId,
+      AND: {
+        isPublic: true,
+      },
+    },
+  });
+
+  if (!voice) {
+    logger.error("Voice Not Found", {
+      voiceId,
+    });
+    throw new NotFoundException("Voice not found");
+  }
+
+  return voice;
 };

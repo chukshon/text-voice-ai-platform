@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { asyncHandler, HTTPSTATUS, ValidatedRequest } from "@repo/common";
 import { ListAllVoicesQueryT } from "@/validators/library";
-import { listAllVoicesService, FiltersT } from "@/services/library.service";
+import { listAllVoicesService, FiltersT, getVoiceByIdService } from "@/services/library.service";
 import { PaginationT } from "@/types/index";
 
 export const listAllVoicesHandler: RequestHandler = asyncHandler(async (req, res) => {
@@ -27,5 +27,16 @@ export const listAllVoicesHandler: RequestHandler = asyncHandler(async (req, res
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
     data: allUserVoices,
+  });
+});
+
+export const getVoiceByIdHandler: RequestHandler = asyncHandler(async (req, res) => {
+  const voiceId = req.params.id as string;
+
+  const voice = await getVoiceByIdService(voiceId);
+
+  res.status(HTTPSTATUS.OK).json({
+    success: true,
+    data: voice,
   });
 });
