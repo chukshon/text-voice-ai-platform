@@ -1,7 +1,7 @@
 import { CreateVoiceInputT } from "@/validators/voice";
 import { prisma } from "@repo/db";
 import { logger } from "@/utils/logger";
-import { BadRequestException, NotFoundException } from "@repo/common";
+import { NotFoundException } from "@repo/common";
 
 export const createVoiceService = async (payload: CreateVoiceInputT, userId: string) => {
   const createdVoice = await prisma.voice.create({
@@ -17,7 +17,7 @@ export const createVoiceService = async (payload: CreateVoiceInputT, userId: str
 export const listUserVoicesService = async (userId: string) => {
   const userVoices = await prisma.voice.findMany({
     where: {
-      id: userId,
+      userId: userId,
     },
     orderBy: {
       createdAt: "desc",
@@ -25,4 +25,25 @@ export const listUserVoicesService = async (userId: string) => {
   });
 
   return userVoices;
+};
+
+export const getUserVoiceByIdService = async (voiceId: string, currentUserId: string) => {
+  const voice = await prisma.voice.findFirst({
+    where: {
+      id: voiceId,
+      AND: {
+        userId: currentUserId,
+      },
+    },
+  });
+
+  if (!voice) {
+    logger.error("Voice Not Found", {
+      voiceId,
+      currentUserId,
+    });
+    throw new NotFoundException("Voice not found");
+  }
+
+  return voice;
 };
