@@ -13,3 +13,16 @@ export const createVoiceService = async (payload: CreateVoiceInputT, userId: str
   });
   return createdVoice;
 };
+
+export const listUserVoicesService = async (userId: string) => {
+  const userVoices = await prisma.voice.findMany({
+    where: {
+      id: userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return userVoices;
+};
