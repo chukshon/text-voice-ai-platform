@@ -44,7 +44,7 @@ export const getUserVoiceByIdHandler: RequestHandler = asyncHandler(async (req, 
   });
 });
 
-export const updateUserVoiceById: RequestHandler = asyncHandler(async (req, res) => {
+export const updateUserVoiceByIdHandler: RequestHandler = asyncHandler(async (req, res) => {
   const currentUserId = req.user?.id as string;
   const voiceId = req.params.id as string;
   const payload = req.body as UpdateVoiceInputT;

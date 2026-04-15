@@ -1,10 +1,11 @@
 import {
   createVoiceHandler,
-  getUserVoiceById,
+  getUserVoiceByIdHandler,
   listUserVoicesHandler,
+  updateUserVoiceByIdHandler,
 } from "@/controllers/voice.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
-import { createVoiceSchema } from "@/validators/voice";
+import { createVoiceSchema, updateVoiceSchema } from "@/validators/voice";
 import { validateRequest } from "@repo/common";
 import { Router } from "express";
 
@@ -18,4 +19,10 @@ voiceRoutes.post(
 );
 
 voiceRoutes.get("/", authenticateUser, listUserVoicesHandler);
-voiceRoutes.get("/:id", authenticateUser, getUserVoiceById);
+voiceRoutes.get("/:id", authenticateUser, getUserVoiceByIdHandler);
+voiceRoutes.put(
+  "/:id",
+  validateRequest({ body: updateVoiceSchema }),
+  authenticateUser,
+  updateUserVoiceByIdHandler,
+);
