@@ -1,10 +1,12 @@
 import {
   createVoiceHandler,
+  deleteUserVoiceByIdHandler,
   getUserVoiceByIdHandler,
   listUserVoicesHandler,
   updateUserVoiceByIdHandler,
 } from "@/controllers/voice.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
+import { paramsIdSchema } from "@/validators/shared";
 import { createVoiceSchema, updateVoiceSchema } from "@/validators/voice";
 import { validateRequest } from "@repo/common";
 import { Router } from "express";
@@ -25,4 +27,11 @@ voiceRoutes.put(
   validateRequest({ body: updateVoiceSchema }),
   authenticateUser,
   updateUserVoiceByIdHandler,
+);
+
+voiceRoutes.delete(
+  "/:id",
+  validateRequest({ params: paramsIdSchema }),
+  authenticateUser,
+  deleteUserVoiceByIdHandler,
 );
