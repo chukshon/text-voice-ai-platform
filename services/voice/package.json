@@ -16,6 +16,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.30.2",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1030.0",
+    "@aws-sdk/s3-request-presigner": "^3.1030.0",
     "@repo/common": "workspace:*",
     "@repo/db": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
