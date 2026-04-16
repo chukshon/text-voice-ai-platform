@@ -69,3 +69,15 @@ export const createVoiceSampleService = async (
 
   return voiceSample;
 };
+
+export const listAllUserVoiceSamplesService = async (voiceId: string, userId: string) => {
+  await verifyVoiceOwnership(voiceId, userId);
+
+  const voiceSamples = await prisma.voiceSample.findMany({
+    where: {
+      voiceId,
+    },
+  });
+
+  return voiceSamples;
+};
