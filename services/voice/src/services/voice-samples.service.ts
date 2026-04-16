@@ -5,7 +5,8 @@ import { ALLOWED_MIME_TYPES } from "@/constants";
 import { randomUUID } from "node:crypto";
 import { deleteFile, getPresignedUrl, uploadFile } from "@/lib/storage";
 
-async function verifyVoiceOwnership(voiceId: string, userId: string) {
+const verifyVoiceOwnership = async (voiceId: string, userId: string) => {
+  logger.info("verifyVoiceOwnership: voiceId", { voiceId, userId });
   const voice = await prisma.voice.findFirst({
     where: {
       id: voiceId,
@@ -22,12 +23,12 @@ async function verifyVoiceOwnership(voiceId: string, userId: string) {
     });
     throw new NotFoundException("Voice not found");
   }
-}
+};
 
 export const createVoiceSampleService = async (
   file: Express.Multer.File,
-  userId: string,
   voiceId: string,
+  userId: string,
 ) => {
   await verifyVoiceOwnership(voiceId, userId);
 
@@ -39,7 +40,7 @@ export const createVoiceSampleService = async (
     throw new NotFoundException("No File Uploaded");
   }
 
-  const { originalname: fileName, buffer, mimetype } = file;
+  const { originalname, buffer, mimetype } = file;
 
   if (!ALLOWED_MIME_TYPES.includes(mimetype as (typeof ALLOWED_MIME_TYPES)[number])) {
     logger.error("Invalid File Type", {
@@ -52,7 +53,7 @@ export const createVoiceSampleService = async (
     );
   }
 
-  const storagePath = `voices/${voiceId}/${randomUUID()}-${file.filename}`;
+  const storagePath = `voices/${voiceId}/${randomUUID()}-${originalname}`;
   const sizeBytes = buffer.length;
 
   await uploadFile(storagePath, buffer, file.mimetype);
@@ -60,7 +61,7 @@ export const createVoiceSampleService = async (
   const voiceSample = await prisma.voiceSample.create({
     data: {
       voiceId,
-      fileName,
+      fileName: originalname,
       mimeType: mimetype,
       sizeBytes,
       storagePath,

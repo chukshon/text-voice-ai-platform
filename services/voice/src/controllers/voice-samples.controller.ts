@@ -12,7 +12,7 @@ export const createVoiceSampleHandler: RequestHandler = asyncHandler(async (req,
   const userId = req.user?.id as string;
   const voiceId = req.params.voiceId as string;
 
-  const voiceSample = await createVoiceSampleService(file, userId, voiceId);
+  const voiceSample = await createVoiceSampleService(file, voiceId, userId);
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,
