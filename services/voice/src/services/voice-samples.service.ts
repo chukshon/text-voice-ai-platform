@@ -3,7 +3,7 @@ import { logger } from "@/utils/logger";
 import { BadRequestException, NotFoundException } from "@repo/common";
 import { ALLOWED_MIME_TYPES } from "@/constants";
 import { randomUUID } from "node:crypto";
-import { uploadFile } from "@/lib/storage";
+import { getPresignedUrl, uploadFile } from "@/lib/storage";
 
 async function verifyVoiceOwnership(voiceId: string, userId: string) {
   const voice = await prisma.voice.findFirst({
@@ -80,4 +80,36 @@ export const listAllUserVoiceSamplesService = async (voiceId: string, userId: st
   });
 
   return voiceSamples;
+};
+
+export const getVoiceSampleByIdService = async (
+  voiceId: string,
+  userId: string,
+  voiceSampleId: string,
+) => {
+  await verifyVoiceOwnership(voiceId, userId);
+
+  const voiceSample = await prisma.voiceSample.findUnique({
+    where: {
+      id: voiceSampleId,
+      AND: {
+        voiceId,
+      },
+    },
+  });
+
+  if (!voiceSample) {
+    logger.error("Voice Sample Not Found", {
+      voiceSampleId,
+      userId,
+    });
+    throw new NotFoundException("Voice Sample not found");
+  }
+
+  const downloadUrl = await getPresignedUrl(voiceSample.storagePath);
+
+  return {
+    ...voiceSample,
+    downloadUrl,
+  };
 };
