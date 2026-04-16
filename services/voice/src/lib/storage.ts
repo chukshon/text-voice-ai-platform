@@ -38,3 +38,14 @@ export async function deleteFile(key: string) {
     }),
   );
 }
+
+export async function getPresignedUrl(key: string, expiresIn = 3600) {
+  return getSignedUrl(
+    s3,
+    new GetObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+    }),
+    { expiresIn },
+  );
+}
