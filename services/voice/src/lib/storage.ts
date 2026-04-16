@@ -29,3 +29,12 @@ export async function uploadFile(key: string, body: Buffer, contentType: string)
     }),
   );
 }
+
+export async function deleteFile(key: string) {
+  await s3.send(
+    new DeleteObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+    }),
+  );
+}
