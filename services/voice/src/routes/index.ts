@@ -6,5 +6,5 @@ import { voiceSampleRoutes } from "@/routes/voice-samples.routes";
 export const registerRoutes = (app: Router) => {
   app.use("/voices", voiceRoutes);
   app.use("/library", libraryRoutes);
-  app.use("/voices/:voiceId/samples", voiceSampleRoutes);
+  app.use("/voices", voiceSampleRoutes);
 };
