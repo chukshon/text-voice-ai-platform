@@ -5,7 +5,6 @@ import { listAllVoicesService, FiltersT, getVoiceByIdService } from "@/services/
 import { PaginationT } from "@/types/index";
 
 export const listAllVoicesHandler: RequestHandler = asyncHandler(async (req, res) => {
-  const userId = req.user?.id as string;
   const validatedQuery = (req as ValidatedRequest).validatedQuery as
     | Partial<ListAllVoicesQueryT>
     | undefined;
@@ -22,7 +21,7 @@ export const listAllVoicesHandler: RequestHandler = asyncHandler(async (req, res
     limit: validatedQuery?.limit ?? 20,
   };
 
-  const allUserVoices = await listAllVoicesService(userId, filters, pagination);
+  const allUserVoices = await listAllVoicesService(filters, pagination);
 
   res.status(HTTPSTATUS.CREATED).json({
     success: true,

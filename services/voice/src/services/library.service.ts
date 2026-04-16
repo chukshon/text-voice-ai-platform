@@ -6,11 +6,7 @@ import { NotFoundException } from "@repo/common";
 
 export type FiltersT = Omit<ListAllVoicesQueryT, "pageNumber" | "limit">;
 
-export const listAllVoicesService = async (
-  userId: string,
-  filters: FiltersT,
-  pagination: PaginationT,
-) => {
+export const listAllVoicesService = async (filters: FiltersT, pagination: PaginationT) => {
   const { pageNumber, limit: pageLimit } = pagination;
 
   const page = Math.max(1, Number(pageNumber) || 1);
@@ -18,9 +14,7 @@ export const listAllVoicesService = async (
   const skip = (page - 1) * limit;
 
   const { searchKeyword, category, gender, language } = filters;
-  const filterConditions: Record<string, any> = {
-    userId,
-  };
+  const filterConditions: Record<string, any> = {};
 
   if (searchKeyword) {
     filterConditions.OR = [
