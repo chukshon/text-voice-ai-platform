@@ -1,5 +1,5 @@
 import express, { type Application } from "express";
-import { errorHandlerMiddleware } from "@repo/common";
+import { errorHandlerMiddleware } from "@/middlewares/errorhandler-middleware";
 import helmet from "helmet";
 import { registerRoutes } from "@/routes";
 
