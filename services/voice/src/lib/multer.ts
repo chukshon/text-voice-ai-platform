@@ -1,8 +1,7 @@
 import multer from "multer";
-
-export const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024;
+import { MAX_AUDIO_FILE_SIZE_BYTES } from "@/constants";
 
 export const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: MAX_FILE_SIZE_BYTES },
+  limits: { fileSize: MAX_AUDIO_FILE_SIZE_BYTES },
 });
