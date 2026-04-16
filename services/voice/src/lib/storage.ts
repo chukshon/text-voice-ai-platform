@@ -18,3 +18,14 @@ const s3 = new S3Client({
 });
 
 const BUCKET = env.MINIO_BUCKET;
+
+export async function uploadFile(key: string, body: Buffer, contentType: string) {
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+      Body: body,
+      ContentType: contentType,
+    }),
+  );
+}
