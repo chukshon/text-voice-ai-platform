@@ -76,3 +76,46 @@ export const getTTSJobByIdService = async (id: string, userId: string) => {
     downloadUrl,
   };
 };
+
+export const listTTSJobsService = async (userId: string, pageNumber?: number, limit?: number) => {
+  const page = Math.max(1, Number(pageNumber) || 1);
+
+  const pageLimit = Math.min(Number(limit) || 20, 100);
+  const skip = (Math.max(Number(page) || 1, 1) - 1) * pageLimit;
+
+  const [jobs, totalCount] = await Promise.all([
+    prisma.voiceJob.findMany({
+      where: { userId },
+      select: {
+        id: true,
+        status: true,
+        type: true,
+        voiceId: true,
+        inputText: true,
+        error: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      skip,
+      take: pageLimit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.voiceJob.count({
+      where: { userId },
+    }),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / pageLimit);
+
+  return {
+    jobs,
+    pagination: {
+      totalCount,
+      totalPages,
+      pageNumber,
+      pageSize: pageLimit,
+    },
+  };
+};
