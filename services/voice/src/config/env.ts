@@ -6,8 +6,6 @@ const envSchema = z.object({
 
   JWT_SECRET: z.string().min(32),
   JWT_EXPIRES_IN: z.string().default("1d"),
-  JWT_REFRESH_SECRET: z.string().min(32),
-  JWT_REFRESH_EXPIRES_IN: z.string().default("30d"),
 
   MINIO_ENDPOINT: z.string().min(1),
   MINIO_PORT: z.coerce.number().int().min(0).max(65_535).default(9000),
