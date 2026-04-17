@@ -24,3 +24,10 @@ async function getChannel() {
 
   return channel;
 }
+
+export async function publishJob(message: Record<string, unknown>) {
+  const ch = await getChannel();
+  ch.sendToQueue(TTS_QUEUE, Buffer.from(JSON.stringify(message)), {
+    persistent: true,
+  });
+}
