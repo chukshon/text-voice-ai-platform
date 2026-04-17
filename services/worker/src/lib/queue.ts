@@ -52,3 +52,10 @@ export async function consumeJobs(handler: (message: Record<string, unknown>) =>
 
   console.log(`[queue] Consuming from "${TTS_QUEUE}"`);
 }
+
+export async function closeQueue() {
+  if (channel) await channel.close();
+  if (connection) await connection.close();
+  channel = null;
+  connection = null;
+}
