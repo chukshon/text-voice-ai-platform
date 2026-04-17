@@ -22,7 +22,7 @@ export async function processTTSJob(message: Record<string, unknown>) {
 
   try {
     // Mock TTS - generate a tiny Silent WAV file to be replaced with a real tts engine.
-    logger.error(`[processor] Processing job ${jobId}: ${text.slice(0, 50)}...`);
+    logger.info(`[processor] Processing job ${jobId}: ${text.slice(0, 50)}...`);
     const buffer = generateSilentWav(1);
 
     const mimeType =
