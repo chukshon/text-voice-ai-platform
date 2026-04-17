@@ -1,9 +1,13 @@
 import { Router } from "express";
 import { validateRequest } from "@repo/common";
 import { createTTSJobSchema } from "@/validators/tts-job.validator";
-import { createTTSJobHandler, getTTSJobByIdHandler } from "@/controllers/tts-job.controller";
+import {
+  createTTSJobHandler,
+  getTTSJobByIdHandler,
+  listTTSJobsHandler,
+} from "@/controllers/tts-job.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
-import { paramsIdSchema } from "@/validators/shared.validator";
+import { paginationQuerySchema, paramsIdSchema } from "@/validators/shared.validator";
 
 export const ttsJobRoutes: Router = Router();
 
@@ -19,4 +23,11 @@ ttsJobRoutes.get(
   authenticateUser,
   validateRequest({ params: paramsIdSchema }),
   getTTSJobByIdHandler,
+);
+
+ttsJobRoutes.get(
+  "/",
+  authenticateUser,
+  validateRequest({ query: paginationQuerySchema }),
+  listTTSJobsHandler,
 );
