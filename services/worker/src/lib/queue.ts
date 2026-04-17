@@ -1,4 +1,5 @@
 import { env } from "@/config/env";
+import { logger } from "@/utils/logger";
 import amqplib from "amqplib";
 
 const TTS_QUEUE = "tts_jobs";
@@ -44,13 +45,13 @@ export async function consumeJobs(handler: (message: Record<string, unknown>) =>
       await handler(data);
       ch.ack(msg);
     } catch (err) {
-      console.error("Job processing failed:", err);
+      logger.error("Job processing failed:", { err });
       // If the job processing fails, don't want to requeue it.
       ch.nack(msg, false, false);
     }
   });
 
-  console.log(`[queue] Consuming from "${TTS_QUEUE}"`);
+  logger.info(`[queue] Consuming from "${TTS_QUEUE}"`);
 }
 
 export async function closeQueue() {
