@@ -1,8 +1,9 @@
-import { prisma } from "@repo/db";
+import { JobStatusEnum, prisma } from "@repo/db";
 import { logger } from "@/utils/logger";
 import { NotFoundException } from "@repo/common";
 import { CreateTTSJobInputT } from "@/validators/tts-job.validator";
 import { publishJob } from "@/lib/queue";
+import { getPresignedUrl } from "@/lib/storage";
 
 export const createTTSJobService = async (payload: CreateTTSJobInputT, userId: string) => {
   const voice = await prisma.voice.findFirst({
@@ -42,4 +43,36 @@ export const createTTSJobService = async (payload: CreateTTSJobInputT, userId: s
     outputFormat: payload.outputFormat,
   });
   return createdJob;
+};
+
+export const getTTSJobByIdService = async (id: string, userId: string) => {
+  const job = await prisma.voiceJob.findUnique({
+    where: {
+      id,
+      AND: { userId },
+    },
+  });
+
+  if (!job) {
+    logger.error("Job not found", { id });
+    throw new NotFoundException("Job not found");
+  }
+
+  let audioFile = null;
+  let downloadUrl = null;
+
+  if (job.status === JobStatusEnum.COMPLETED) {
+    audioFile = await prisma.audioFile.findUnique({
+      where: { id: job.outputFileId as string },
+    });
+    if (audioFile) {
+      downloadUrl = await getPresignedUrl(audioFile.storagePath);
+    }
+  }
+
+  return {
+    job,
+    audioFile,
+    downloadUrl,
+  };
 };
