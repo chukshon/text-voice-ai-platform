@@ -15,15 +15,18 @@ export const createTTSJobService = async (payload: CreateTTSJobInputT, userId: s
     },
   });
 
+  logger.info("Voice found", { voice });
+
   if (!voice) {
     logger.error("Voice not found", { voiceId: payload.voiceId });
     throw new NotFoundException("Voice not found");
   }
   const createdJob = await prisma.voiceJob.create({
     data: {
-      ...payload,
-      userId,
       voiceId: payload.voiceId,
+      inputText: payload.text,
+      metadata: { outputFormat: payload.outputFormat },
+      userId,
     },
     select: {
       id: true,
