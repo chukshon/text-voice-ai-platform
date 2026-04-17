@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { jobsRoutes } from "@/routes/jobs.routes";
+import { ttsJobRoutes } from "@/routes/tts-job.routes";
 
 export const registerRoutes = (app: Router) => {
-  app.use("/tts", jobsRoutes);
+  app.use("/tts", ttsJobRoutes);
 };

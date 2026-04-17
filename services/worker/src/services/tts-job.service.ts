@@ -1,10 +1,10 @@
 import { prisma } from "@repo/db";
 import { logger } from "@/utils/logger";
 import { NotFoundException } from "@repo/common";
-import { CreateJobInputT } from "@/validators/job.validator";
+import { CreateTTSJobInputT } from "@/validators/tts-job.validator";
 import { publishJob } from "@/lib/queue";
 
-export const createJobService = async (payload: CreateJobInputT, userId: string) => {
+export const createTTSJobService = async (payload: CreateTTSJobInputT, userId: string) => {
   const voice = await prisma.voice.findFirst({
     where: {
       id: payload.voiceId,
