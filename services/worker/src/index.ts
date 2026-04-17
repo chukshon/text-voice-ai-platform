@@ -3,11 +3,12 @@ import { createServer } from "http";
 import { env } from "@/config/env";
 import { prisma } from "@repo/db";
 import { logger } from "@/utils/logger";
+import { consumeJobs, closeQueue } from "@/lib/queue";
+import { processTTSJob } from "@/lib/processor";
 
 const main = async () => {
   try {
-    await prisma.$connect();
-
+    await Promise.all([prisma.$connect(), consumeJobs(processTTSJob)]);
     const app = createApp();
     const server = createServer(app);
 
@@ -20,7 +21,7 @@ const main = async () => {
     const shutdown = () => {
       logger.info("Shutting down server...");
 
-      Promise.all([prisma.$disconnect()])
+      Promise.all([prisma.$disconnect(), closeQueue()])
         .catch((error) => {
           logger.error("Failed to shut down server", error);
           process.exit(1);

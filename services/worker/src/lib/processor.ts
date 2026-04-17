@@ -12,7 +12,7 @@ interface JobMessage {
   outputFormat: string;
 }
 
-export async function processJob(message: Record<string, unknown>) {
+export async function processTTSJob(message: Record<string, unknown>) {
   const { jobId, voiceId, text, outputFormat } = message as unknown as JobMessage;
 
   await prisma.voiceJob.update({
