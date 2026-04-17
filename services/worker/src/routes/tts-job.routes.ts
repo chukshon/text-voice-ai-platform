@@ -4,9 +4,9 @@ import { createTTSJobSchema } from "@/validators/tts-job.validator";
 import { createTTSJobHandler } from "@/controllers/tts-job.controller";
 import { authenticateUser } from "@/middlewares/authenticate-user";
 
-export const ttsRoutes: Router = Router();
+export const ttsJobRoutes: Router = Router();
 
-ttsRoutes.post(
+ttsJobRoutes.post(
   "/",
   authenticateUser,
   validateRequest({ body: createTTSJobSchema }),
