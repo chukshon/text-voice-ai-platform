@@ -69,8 +69,6 @@ export async function processTTSJob(message: Record<string, unknown>) {
   }
 }
 
-// Generate a minimal WAV file with silence, this is a placeholder until we add
-// a real TTS engine.
 function generateSilentWav(durationSeconds: number): Buffer {
   const sampleRate = 22050;
   const numChannels = 1;
