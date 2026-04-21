@@ -42,3 +42,8 @@ class SynthesizeRequest(BaseModel):
     speed: float = Field(
         default=1.0, ge=0.5, le=2.0, description="Speech speed multiplier"
     )
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "service": "tts", "engines": ["kokoro"]}
