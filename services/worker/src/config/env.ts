@@ -18,6 +18,10 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .transform((v) => v === "true")
     .default("false"),
+
+  TTS_SERVICE_URL: z.string().url(),
+  TTS_REQUEST_TIMEOUT_MS: z.coerce.number().int().min(0).default(60000),
+  TTS_REQUEST_RETRIES: z.coerce.number().int().min(0).default(2),
 });
 
 type EnvType = z.infer<typeof envSchema>;
