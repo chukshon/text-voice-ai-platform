@@ -54,3 +54,47 @@ async def list_voices():
     """List all available TTS voices."""
     voices = kokoro.get_voices()
     return {"voices": voices, "total": len(voices)}
+
+
+@app.post("/v1/synthesize")
+async def synthesize(req: SynthesizeRequest):
+    """Synthesize text to speech using Kokoro.
+
+    Returns raw audio bytes with metadata in response headers.
+    """
+    try:
+        result = kokoro.synthesize(
+            text=req.text,
+            voice_id=req.voice_id,
+            language=req.language,
+            output_format=req.output_format,
+            speed=req.speed,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.exception("Synthesis failed")
+        raise HTTPException(status_code=500, detail=f"Synthesis failed: {e}")
+
+    return Response(
+        content=result.audio_bytes,
+        media_type=result.content_type,
+        headers={
+            "x-duration-ms": str(result.duration_ms),
+            "x-sample-rate": str(result.sample_rate),
+            "x-engine": "kokoro",
+            "x-voice-id": result.voice_id,
+        },
+    )
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "src.main:app",
+        host=settings.host,
+        port=settings.port,
+        reload=False,
+        log_level=settings.log_level,
+    )
