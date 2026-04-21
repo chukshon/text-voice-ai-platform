@@ -47,3 +47,10 @@ class SynthesizeRequest(BaseModel):
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "tts", "engines": ["kokoro"]}
+
+
+@app.get("/v1/voices")
+async def list_voices():
+    """List all available TTS voices."""
+    voices = kokoro.get_voices()
+    return {"voices": voices, "total": len(voices)}
