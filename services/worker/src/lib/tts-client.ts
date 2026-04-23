@@ -43,7 +43,9 @@ async function parseErrorMessage(response: Response): Promise<string> {
   return response.statusText || "TTS service request failed";
 }
 
-export async function synthesizeSpeech(input: SynthesizePayloadT): Promise<SynthesizeResponseT> {
+export async function synthesizeSpeechService(
+  input: SynthesizePayloadT,
+): Promise<SynthesizeResponseT> {
   let lastError: Error | null = null;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt += 1) {
