@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AudioWaveform } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme.toggle";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -38,6 +39,10 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
             );
           })}
         </nav>
+
+        <div className="flex items-center justify-between border-t border-border/50 px-5 py-3">
+          <ThemeToggle />
+        </div>
       </aside>
 
       <main className="flex-1 pl-56">{children}</main>
