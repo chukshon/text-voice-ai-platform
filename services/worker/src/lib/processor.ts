@@ -22,10 +22,8 @@ export async function processTTSJob(message: Record<string, unknown>) {
   });
 
   try {
-    // Mock TTS - generate a tiny Silent WAV file to be replaced with a real tts engine.
     logger.info(`[processor] Processing job ${jobId}: ${text.slice(0, 50)}...`);
 
-    // 2. Look up voice metadata to get the Kokoro voice ID
     const voice = await prisma.voice.findFirst({
       where: {
         id: voiceId,
@@ -35,7 +33,6 @@ export async function processTTSJob(message: Record<string, unknown>) {
     const kokoroVoice =
       ((voice?.metadata as Record<string, unknown>)?.kokoroVoice as string) || "af_heart";
 
-    // 3. Call the real TTS service
     const SynthesizeResponse = await synthesizeSpeechService({
       text,
       voice_id: kokoroVoice,

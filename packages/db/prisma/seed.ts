@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config({ path: "../../.env" });
 import { createLogger } from "@repo/common";
-import { VoiceCategoryEnum, VoiceGenderEnum } from "@prisma/client";
+import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
 
 const logger = createLogger({ name: "db-seed" });
 
