@@ -62,3 +62,21 @@ export class TooManyRequestsException extends AppError {
     super(message, HTTPSTATUS.TOO_MANY_REQUEST, errorCode);
   }
 }
+
+export class TtsServiceError extends AppError {
+  public retriable: boolean;
+
+  constructor(
+    message = "TTS service error",
+    opts?: {
+      statusCode?: HttpStatusCodeType;
+      errorCode?: string;
+      details?: Record<string, unknown>;
+      retriable?: boolean;
+    },
+  ) {
+    super(message, opts?.statusCode ?? HTTPSTATUS.BAD_GATEWAY, opts?.errorCode, opts?.details);
+    this.name = "TtsServiceError";
+    this.retriable = opts?.retriable ?? false;
+  }
+}
