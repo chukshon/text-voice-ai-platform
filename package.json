@@ -18,7 +18,8 @@
     "db:studio": "pnpm --filter @repo/db studio",
     "dev:auth": "pnpm --filter auth dev",
     "dev:voice": "pnpm --filter voice dev",
-    "dev:worker": "pnpm --filter worker dev"
+    "dev:worker": "pnpm --filter worker dev",
+    "dev:web": "pnpm --filter web dev"
   },
   "keywords": [],
   "author": "",
