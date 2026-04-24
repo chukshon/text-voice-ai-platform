@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -32,15 +34,14 @@ const LoginForm = () => {
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-foreground/70">
-          Email
-        </Label>
         <Controller
           name="email"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email" className="text-foreground/70">
+                Email
+              </FieldLabel>
               <Input
                 {...field}
                 aria-invalid={fieldState.invalid}
@@ -55,15 +56,14 @@ const LoginForm = () => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-foreground/70">
-          Password
-        </Label>
         <Controller
           name="password"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password" className="text-foreground/70">
+                Password
+              </FieldLabel>
               <Input
                 {...field}
                 aria-invalid={fieldState.invalid}
@@ -77,7 +77,7 @@ const LoginForm = () => {
         />
       </div>
 
-      <Button type="submit" className="h-11 w-full" disabled={loading}>
+      <Button type="submit" className="cursor-pointer h-11 w-full" disabled={loading}>
         {loading ? (
           <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         ) : (
