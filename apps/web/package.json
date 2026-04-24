@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@repo/common": "workspace:*",
     "@tanstack/react-query": "^5.100.1",
     "@tanstack/react-query-devtools": "^5.100.1",
     "class-variance-authority": "^0.7.1",
