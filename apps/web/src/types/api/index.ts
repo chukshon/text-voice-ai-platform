@@ -1,14 +1,16 @@
-interface ApiResponseT<T> {
+interface ApiSuccessResponseT<T> {
   success: boolean;
   data?: T;
   message: string;
-  error?: {
-    message: string;
-    errors?: {
-      field: string;
-      message: string;
-    }[];
-  };
 }
 
-export type { ApiResponseT };
+interface ApiErrorResponseT {
+  success: boolean;
+  message: string;
+  errors?: {
+    field: string;
+    message: string;
+  }[];
+}
+
+export type { ApiSuccessResponseT, ApiErrorResponseT };

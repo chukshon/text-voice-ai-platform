@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { TOKEN_KEYS } from "@/types/api/auth";
+import { TOKEN_KEYS } from "@/services/auth/types";
 import { PUBLIC_PATHS, ROUTES } from "@/constants";
-import { ApiResponseT } from "@/types/api";
+import { ApiErrorResponseT } from "@/types/api";
 import { ENV_CONFIG } from "@/config/variables";
 
 // Constants for magic numbers
@@ -127,7 +127,7 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError<ApiResponseT<unknown>>) => {
+  async (error: AxiosError<ApiErrorResponseT>) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
@@ -155,13 +155,10 @@ api.interceptors.response.use(
     }
 
     // Transform error to a consistent format
-    const apiError: ApiResponseT<unknown> = {
+    const apiError: ApiErrorResponseT = {
       success: false,
       message: error.response?.data?.message || "An unexpected error occurred",
-      error: {
-        message: error.response?.data?.message || "An unexpected error occurred",
-        errors: error.response?.data?.error?.errors,
-      },
+      errors: error.response?.data?.errors,
     };
 
     return Promise.reject(apiError);
