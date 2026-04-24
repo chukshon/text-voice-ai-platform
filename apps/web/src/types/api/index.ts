@@ -1,4 +1,4 @@
-interface ApiResponse<T> {
+interface ApiResponseT<T> {
   success: boolean;
   data?: T;
   message: string;
@@ -11,4 +11,4 @@ interface ApiResponse<T> {
   };
 }
 
-export type { ApiResponse };
+export type { ApiResponseT };
