@@ -1,0 +1,10 @@
+import QueryProvider from "@/providers/query-provider";
+import ThemeProvider from "@/providers/theme-provider";
+
+export function RootProviders({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </QueryProvider>
+  );
+}
