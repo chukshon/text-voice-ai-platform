@@ -23,3 +23,10 @@ export const getLoggedInUserRequest = async (): Promise<GetLoggedInUserResponseT
   const { data } = await api.get<GetLoggedInUserResponseT>("auth/me");
   return data;
 };
+
+export const refreshTokenRequest = async (
+  payload: RefreshTokenPayloadT,
+): Promise<RefreshTokenResponseT> => {
+  const { data } = await api.post<RefreshTokenResponseT>("auth/refresh-token", payload);
+  return data;
+};
