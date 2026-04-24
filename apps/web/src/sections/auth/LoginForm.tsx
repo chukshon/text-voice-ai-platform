@@ -7,12 +7,17 @@ import { loginInputSchema, LoginInputT } from "@/schema/auth.schema";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useLoginMutation } from "@/services/auth/mutations";
+import { toast } from "react-hot-toast";
+import { useRouter } from "nextjs-toploader/app";
+import { ROUTES } from "@/constants";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginForm = () => {
-  const { mutate: login, isPending: loading, error } = useLoginMutation();
+  const router = useRouter();
+  const { login } = useAuth();
+  const { mutate: loginMutation, isPending: loading, error } = useLoginMutation();
   const form = useForm<LoginInputT>({
     resolver: zodResolver(loginInputSchema),
     defaultValues: {
@@ -23,6 +28,20 @@ const LoginForm = () => {
 
   function onSubmit(data: LoginInputT) {
     console.log(data);
+    loginMutation(data, {
+      onSuccess: (response) => {
+        login({
+          access_token: response.data?.accessToken ?? "",
+          refresh_token: response.data?.refreshToken ?? "",
+          expires_in: response.data?.refreshTokenExpiresAt as string,
+        });
+        toast.success("Login successful");
+        router.push(ROUTES.DASHBOARD);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   }
 
   return (

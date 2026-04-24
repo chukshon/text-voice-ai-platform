@@ -1,5 +1,3 @@
-"use client";
-
 import { AudioWaveform } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme.toggle";
 
