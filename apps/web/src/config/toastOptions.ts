@@ -1,3 +1,3 @@
-export const ToastOptions = {
+export const TOAST_OPTIONS = {
   duration: 5000,
 };

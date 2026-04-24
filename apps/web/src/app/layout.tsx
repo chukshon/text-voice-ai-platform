@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { RootProviders } from "@/providers";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "react-hot-toast";
+import { TOAST_OPTIONS } from "@/config/toastOptions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +35,7 @@ export default function RootLayout({
       <body>
         <RootProviders>
           <NextTopLoader color="#40475C" speed={600} />
+          <Toaster position="top-right" toastOptions={TOAST_OPTIONS} />
           {children}
         </RootProviders>
       </body>
