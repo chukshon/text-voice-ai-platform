@@ -6,6 +6,7 @@ export type AuthResponseT = {
   user: UserDataT;
   accessToken: string;
   refreshToken: string;
+  refreshTokenExpiresAt: Date;
 };
 
 export type RefreshAuthResponseT = Omit<AuthResponseT, "user">;

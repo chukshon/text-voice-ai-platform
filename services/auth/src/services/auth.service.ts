@@ -57,6 +57,7 @@ export const registerService = async (payload: RegisterInputT): Promise<AuthResp
       user: newUser,
       accessToken,
       refreshToken,
+      refreshTokenExpiresAt: refreshTokenRecord.expiresAt,
     };
   });
 };
@@ -100,6 +101,7 @@ export const loginService = async (payload: LoginInputT): Promise<AuthResponseT>
     },
     accessToken,
     refreshToken,
+    refreshTokenExpiresAt: refreshTokenRecord.expiresAt,
   };
 };
 
@@ -162,6 +164,7 @@ export const refreshTokenService = async (
   return {
     accessToken,
     refreshToken: newRefreshToken,
+    refreshTokenExpiresAt: newTokenRecord.expiresAt,
   };
 };
 
