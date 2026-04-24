@@ -10,13 +10,14 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (err, req, res, next)
 
   if (err instanceof AppError) {
     const response = err?.details
-      ? { message: err.message, errors: err.details.errors }
-      : { message: err.message };
+      ? { success: false, message: err.message, errors: err.details.errors }
+      : { success: false, message: err.message };
 
     return res.status(err.statusCode).json(response);
   }
 
   return res.status(HTTPSTATUS.INTERNAL_SERVER_ERROR).json({
+    success: false,
     message: "Internal server error",
     error: err?.message || "An unknown error occurred",
   });

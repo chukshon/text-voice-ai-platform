@@ -15,6 +15,7 @@ export const registerHandler: RequestHandler = asyncHandler(async (req, res) => 
   const result = await registerService(payload);
 
   res.status(HTTPSTATUS.CREATED).json({
+    success: true,
     message: "User registered successfully",
     data: result,
   });
@@ -26,6 +27,7 @@ export const loginHandler: RequestHandler = asyncHandler(async (req, res) => {
   const result = await loginService(payload);
 
   res.status(HTTPSTATUS.CREATED).json({
+    success: true,
     message: "User Logged in successfully",
     data: result,
   });
@@ -37,6 +39,7 @@ export const refreshTokenHandler: RequestHandler = asyncHandler(async (req, res)
   const result = await refreshTokenService(payload);
 
   res.status(HTTPSTATUS.CREATED).json({
+    success: true,
     data: result,
   });
 });
@@ -47,6 +50,7 @@ export const getCurrentUserHandler: RequestHandler = asyncHandler(async (req, re
   const result = await getCurrentUserService(user.id);
 
   res.status(HTTPSTATUS.OK).json({
+    success: true,
     user: result,
   });
 });
