@@ -1,4 +1,4 @@
-import { ApiSuccessResponseT, ApiErrorResponseT } from "@/types/api";
+import { ApiSuccessResponseT } from "@/types/api";
 
 export interface LoginPayloadT {
   email: string;
