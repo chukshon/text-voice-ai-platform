@@ -27,3 +27,13 @@ export const DASHBOARD_QUICK_ACTIONS = [
     icon: MessageSquareText,
   },
 ];
+
+export const ROUTES = {
+  DASHBOARD: "/",
+
+  // LOG IN
+  LOGIN: "/login",
+  REGISTER: "/register",
+};
+
+export const PUBLIC_PATHS = [ROUTES.LOGIN, ROUTES.REGISTER];
