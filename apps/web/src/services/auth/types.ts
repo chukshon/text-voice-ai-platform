@@ -25,20 +25,20 @@ export type LoginResponseT = ApiSuccessResponseT<{
   user: UserT;
   accessToken: string;
   refreshToken: string;
-  refreshTokenExpiresAt: Date;
+  refreshTokenExpiresAt: string;
 }>;
 
 export type RegisterResponseT = ApiSuccessResponseT<{
   user: UserT;
   accessToken: string;
   refreshToken: string;
-  refreshTokenExpiresAt: Date;
+  refreshTokenExpiresAt: string;
 }>;
 
 export type RefreshTokenResponseT = ApiSuccessResponseT<{
   accessToken: string;
   refreshToken: string;
-  refreshTokenExpiresAt: Date;
+  refreshTokenExpiresAt: string;
 }>;
 
 export type GetLoggedInUserResponseT = ApiSuccessResponseT<UserT>;

@@ -13,7 +13,7 @@ interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
   user: UserT | null;
-  login: (tokens: { access_token: string; refresh_token: string; expires_in: number }) => void;
+  login: (tokens: { access_token: string; refresh_token: string; expires_in: string }) => void;
   logout: () => void;
   refreshAccessToken: () => Promise<void>;
   isUserLoading: boolean;
@@ -51,7 +51,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     setIsInitialized(true);
   }, []);
 
-  const login = (tokens: { access_token: string; refresh_token: string; expires_in: number }) => {
+  const login = (tokens: { access_token: string; refresh_token: string; expires_in: string }) => {
     // Only run on client side
     if (typeof window === "undefined") return;
 
@@ -72,7 +72,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       return;
     }
 
-    if (!tokens.expires_in || tokens.expires_in <= 0) {
+    if (!tokens.expires_in || tokens.expires_in <= "0") {
       toast.error("Invalid token expiry");
       return;
     }
@@ -82,8 +82,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, tokens.refresh_token);
 
     // Calculate and store token expiry
-    const expiryTime = Date.now() + tokens.expires_in * 1000;
-    localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN_EXPIRES_AT, expiryTime.toString());
+    const expiryTime = tokens.expires_in;
+    localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN_EXPIRES_AT, expiryTime);
 
     // Update state
     setAccessToken(tokens.access_token);
@@ -128,8 +128,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, response.data?.refreshToken ?? "");
 
       // Calculate and store new token expiry
-      const expiryTime = Date.now() + (response.data?.refreshTokenExpiresAt?.getTime() ?? 0) * 1000;
-      localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN_EXPIRES_AT, expiryTime.toString());
+      const expiryTime = response.data?.refreshTokenExpiresAt ?? "";
+      localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN_EXPIRES_AT, expiryTime);
 
       // Update state
       setAccessToken(response.data?.accessToken ?? "");
