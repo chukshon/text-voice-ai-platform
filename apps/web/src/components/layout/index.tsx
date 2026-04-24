@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AudioWaveform } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/theme.toggle";
+import { ThemeToggle } from "@/components/ui/theme.toggle";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -27,7 +27,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
                 key={href}
                 href={href}
                 className={cn(
-                  "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors",
+                  "flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors",
                   active
                     ? "bg-foreground/8 text-foreground"
                     : "text-muted-foreground hover:bg-foreground/4 hover:text-foreground",

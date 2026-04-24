@@ -4,7 +4,9 @@ import ThemeProvider from "@/providers/theme-provider";
 export function RootProviders({ children }: { children: React.ReactNode }) {
   return (
     <QueryProvider>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        {children}
+      </ThemeProvider>
     </QueryProvider>
   );
 }
