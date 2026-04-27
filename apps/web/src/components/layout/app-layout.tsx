@@ -29,8 +29,8 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         <nav className="flex-1 space-y-0.5 px-3 py-3">
-          {NAV_LINKS.map(({ label, href, icon: Icon }) => {
-            const active = pathname === href || pathname.startsWith(href + "/");
+          {NAV_LINKS.map(({ label, href, icon: Icon, key }) => {
+            const active = pathname === key;
             return (
               <Link
                 key={href}

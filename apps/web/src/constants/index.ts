@@ -17,10 +17,15 @@ export const ROUTES = {
 };
 
 export const NAV_LINKS = [
-  { label: "Dashboard", href: ROUTES.DASHBOARD, icon: LayoutDashboard },
-  { label: "Voice Library", href: ROUTES.VOICES_LIBRARY, icon: Library },
-  { label: "My Voices", href: ROUTES.VOICES, icon: Mic },
-  { label: "Text to Speech", href: ROUTES.TEXT_TO_SPEECH, icon: MessageSquareText },
+  { label: "Dashboard", href: ROUTES.DASHBOARD, icon: LayoutDashboard, key: "/dashboard" },
+  { label: "Voice Library", href: ROUTES.VOICES_LIBRARY, icon: Library, key: "/voices/library" },
+  { label: "My Voices", href: ROUTES.VOICES, icon: Mic, key: "/voices" },
+  {
+    label: "Text to Speech",
+    href: ROUTES.TEXT_TO_SPEECH,
+    icon: MessageSquareText,
+    key: "/tts",
+  },
 ];
 
 export const DASHBOARD_QUICK_ACTIONS = [
