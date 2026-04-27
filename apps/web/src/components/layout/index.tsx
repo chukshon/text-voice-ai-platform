@@ -2,11 +2,20 @@ import React from "react";
 import { NAV_LINKS } from "@/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { AudioWaveform } from "lucide-react";
+import { AudioWaveform, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ui/theme.toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/auth-context";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  const { user, logout } = useAuth();
   const pathname = usePathname();
 
   return (
@@ -42,6 +51,28 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
         <div className="flex items-center justify-between border-t border-border/50 px-5 py-3">
           <ThemeToggle />
+        </div>
+        <div className="border-t border-border/50 p-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-[13px] transition-colors hover:bg-foreground/[0.04]">
+                <div className="flex size-6 items-center justify-center rounded-full bg-foreground/10 text-[11px] font-semibold uppercase">
+                  {user?.name?.charAt(0) || "U"}
+                </div>
+                <div className="flex-1 truncate">
+                  <div className="truncate font-medium text-foreground">{user?.name}</div>
+                </div>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="start" className="w-48">
+              <div className="px-2 py-1.5 text-xs text-muted-foreground">{user?.email}</div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={logout}>
+                <LogOut className="mr-2 size-3.5" />
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
 

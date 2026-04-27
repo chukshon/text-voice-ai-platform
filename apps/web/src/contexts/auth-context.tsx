@@ -31,7 +31,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (userData && accessToken) {
-      setUser(userData.data as UserT);
+      setUser(userData?.data as UserT);
     }
   }, [userData, accessToken]);
 
