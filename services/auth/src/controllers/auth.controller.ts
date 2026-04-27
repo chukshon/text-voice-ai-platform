@@ -51,6 +51,6 @@ export const getCurrentUserHandler: RequestHandler = asyncHandler(async (req, re
 
   res.status(HTTPSTATUS.OK).json({
     success: true,
-    user: result,
+    data: result,
   });
 });
