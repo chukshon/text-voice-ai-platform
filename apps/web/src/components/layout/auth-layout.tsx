@@ -1,5 +1,5 @@
 import { AudioWaveform } from "lucide-react";
-import { ThemeToggle } from "@/components/ui/theme.toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import NonProtectedRoute from "@/components/guards/non-protected";
 
 interface AuthLayoutProps {
