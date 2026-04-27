@@ -17,20 +17,36 @@ export const listAllVoicesService = async (filters: FiltersT, pagination: Pagina
   const filterConditions: Record<string, any> = {};
 
   if (searchKeyword) {
-    filterConditions.OR = [
+    const keyword = searchKeyword.trim();
+    const normalized = keyword.toUpperCase();
+    const orConditions: Record<string, any>[] = [
       {
-        title: {
-          contains: searchKeyword,
+        name: {
+          contains: keyword,
           mode: "insensitive",
         },
       },
       {
-        category: {
-          contains: searchKeyword,
+        description: {
+          contains: keyword,
+          mode: "insensitive",
+        },
+      },
+      {
+        language: {
+          contains: keyword,
           mode: "insensitive",
         },
       },
     ];
+    // Enums don't support `contains`, only exact matches
+    if (["PREMADE", "CUSTOM", "CLONED"].includes(normalized)) {
+      orConditions.push({ category: normalized });
+    }
+    if (["MALE", "FEMALE", "NEUTRAL"].includes(normalized)) {
+      orConditions.push({ gender: normalized });
+    }
+    filterConditions.OR = orConditions;
   }
 
   if (category) {
