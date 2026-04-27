@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
 import HeroSection from "@/features/dashboard/hero";
+import QuickActionSection from "@/features/dashboard/quick-action";
 import { useAuth } from "@/contexts/auth-context";
 
 const DashboardPage = () => {
@@ -8,6 +8,7 @@ const DashboardPage = () => {
   return (
     <div className="p-8">
       <HeroSection name={user?.name ?? ""} />
+      <QuickActionSection />
     </div>
   );
 };
