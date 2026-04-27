@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AuthLayout } from "@/components/layout/auth-layout";
-import RegisterForm from "@/sections/auth/RegisterForm";
+import RegisterForm from "@/sections/auth/register-form";
 
 export const metadata: Metadata = {
   title: "Create account — Text to Voice AI",

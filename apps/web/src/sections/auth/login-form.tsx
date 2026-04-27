@@ -11,7 +11,7 @@ import { useLoginMutation } from "@/services/auth/mutations";
 import { toast } from "react-hot-toast";
 import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth-context";
 
 const LoginForm = () => {
   const router = useRouter();
