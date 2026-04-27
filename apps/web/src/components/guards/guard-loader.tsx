@@ -1,5 +1,5 @@
 import { AudioWaveform } from "lucide-react";
-import { Spinner } from "../ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const GuardLoader = () => {
   return (

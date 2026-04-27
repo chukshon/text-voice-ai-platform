@@ -1,6 +1,6 @@
 "use client";
 import useRouteProtection from "@/hooks/use-route-protection";
-import GuardLoader from "./guard-loader";
+import GuardLoader from "@/components/guards/guard-loader";
 
 interface NonProtectedRouteProps {
   children: React.ReactNode;
