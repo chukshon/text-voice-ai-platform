@@ -27,12 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <RootProviders>
           <NextTopLoader color="#40475C" speed={600} />
           <Toaster position="top-right" toastOptions={TOAST_OPTIONS} />
