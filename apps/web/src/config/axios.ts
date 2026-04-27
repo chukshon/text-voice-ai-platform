@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { ApiErrorResponseT } from "@/types/api";
 import { ENV_CONFIG } from "@/config/variables";
-import { getAccessToken, safeRedirectToLogin, attemptTokenRefresh } from "@/utils/auth";
+import { getAccessToken, safeRedirectToLogin, attemptTokenRefresh } from "@/lib/utils/auth";
 
 const API_TIMEOUT = 10000; // 10 seconds
 const REFRESH_API_TIMEOUT = 10000; // 10 seconds

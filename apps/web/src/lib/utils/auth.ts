@@ -1,4 +1,4 @@
-import { PUBLIC_PATHS } from "@/constants";
+import { isPublicPath as isPublicPathUtils } from "@/lib/utils";
 import { ROUTES } from "@/constants";
 import { TOKEN_KEYS } from "@/services/auth/types";
 import { AxiosInstance } from "axios";
@@ -28,7 +28,7 @@ const safeRedirectToLogin = (isRedirecting: boolean) => {
   if (isRedirecting || typeof window === "undefined") return;
 
   const currentPath = window.location.pathname;
-  const isPublicPath = PUBLIC_PATHS.some((path) => currentPath.startsWith(path));
+  const isPublicPath = isPublicPathUtils(currentPath);
 
   if (!isPublicPath) {
     isRedirecting = true;
