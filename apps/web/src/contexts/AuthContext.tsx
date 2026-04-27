@@ -6,6 +6,7 @@ import { useGetLoggedInUserQuery } from "@/services/auth/queries";
 import { ROUTES } from "@/constants";
 
 interface AuthContextType {
+  isInitialized: boolean;
   isAuthenticated: boolean;
   accessToken: string | null;
   refreshToken: string | null;
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [user, setUser] = useState<UserT | null>(null);
   const router = useRouter();
 
@@ -32,6 +34,21 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setUser(userData.data as UserT);
     }
   }, [userData, accessToken]);
+
+  // inside AuthProvider, after useGetLoggedInUserQuery(...)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const storedAccessToken = localStorage.getItem(TOKEN_KEYS.ACCESS_TOKEN);
+    const storedRefreshToken = localStorage.getItem(TOKEN_KEYS.REFRESH_TOKEN);
+
+    if (storedAccessToken && storedRefreshToken) {
+      setAccessToken(storedAccessToken);
+      setRefreshToken(storedRefreshToken);
+    }
+
+    setIsInitialized(true);
+  }, []);
 
   const login = (tokens: { access_token: string; refresh_token: string; expires_in: string }) => {
     // Only run on client side
@@ -71,6 +88,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   return (
     <AuthContext.Provider
       value={{
+        isInitialized,
         isAuthenticated,
         accessToken,
         refreshToken,
