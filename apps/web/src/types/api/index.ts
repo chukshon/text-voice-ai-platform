@@ -13,4 +13,13 @@ interface ApiErrorResponseT {
   }[];
 }
 
-export type { ApiSuccessResponseT, ApiErrorResponseT };
+interface ApiPaginationResponseT<T> {
+  totalCount: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  skip: number;
+  data: T[];
+}
+
+export type { ApiSuccessResponseT, ApiErrorResponseT, ApiPaginationResponseT };
