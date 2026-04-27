@@ -110,18 +110,18 @@ const RegisterForm = () => {
         />
       </div>
 
-      <Button type="submit" className="cursor-pointer h-11 w-full" disabled={loading}>
+      <Button type="submit" className="h-11 w-full" disabled={loading}>
         {loading ? (
           <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         ) : (
-          "Sign in"
+          "Create account"
         )}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="font-medium text-foreground hover:underline">
-          Create one
+        Already have an account?{" "}
+        <Link href="/login" className="font-medium text-foreground hover:underline">
+          Sign in
         </Link>
       </p>
     </form>
