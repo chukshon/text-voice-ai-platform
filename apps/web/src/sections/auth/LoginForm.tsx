@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { loginInputSchema, LoginInputT } from "@/schema/auth.schema";
@@ -27,7 +26,6 @@ const LoginForm = () => {
   });
 
   function onSubmit(data: LoginInputT) {
-    console.log(data);
     loginMutation(data, {
       onSuccess: (response) => {
         login({

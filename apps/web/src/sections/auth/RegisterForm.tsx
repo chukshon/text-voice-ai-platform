@@ -24,7 +24,6 @@ const RegisterForm = () => {
   });
 
   function onSubmit(data: RegisterInputT) {
-    console.log(data);
     registerMutation(data, {
       onSuccess: (response) => {
         toast.success("Registration successful");
