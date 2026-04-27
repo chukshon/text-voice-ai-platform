@@ -1,19 +1,14 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { TOKEN_KEYS } from "@/services/auth/types";
-import { PUBLIC_PATHS, ROUTES } from "@/constants";
 import { ApiErrorResponseT } from "@/types/api";
 import { ENV_CONFIG } from "@/config/variables";
+import { getAccessToken, safeRedirectToLogin, attemptTokenRefresh } from "@/utils/auth";
 
-// Constants for magic numbers
 const API_TIMEOUT = 10000; // 10 seconds
 const REFRESH_API_TIMEOUT = 10000; // 10 seconds
 
-// Flag to prevent multiple redirects
 let isRedirecting = false;
-// Promise-based approach to prevent race conditions
 let refreshPromise: Promise<boolean> | null = null;
 
-// Create axios instance with default config
 const api: AxiosInstance = axios.create({
   baseURL: ENV_CONFIG.NEXT_PUBLIC_API_URL,
   headers: {
@@ -22,7 +17,6 @@ const api: AxiosInstance = axios.create({
   timeout: API_TIMEOUT,
 });
 
-// Create a separate axios instance for refresh token requests (no interceptors)
 const refreshApi: AxiosInstance = axios.create({
   baseURL: ENV_CONFIG.NEXT_PUBLIC_API_URL,
   headers: {
@@ -30,82 +24,6 @@ const refreshApi: AxiosInstance = axios.create({
   },
   timeout: REFRESH_API_TIMEOUT,
 });
-
-// Helper to get access token
-const getAccessToken = () => {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEYS.ACCESS_TOKEN);
-};
-
-// Helper to get refresh token
-const getRefreshToken = () => {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEYS.REFRESH_TOKEN);
-};
-
-// Helper to update tokens after refresh
-const updateTokens = (accessToken: string, refreshToken: string, expiresIn: number) => {
-  if (typeof window === "undefined") return;
-
-  localStorage.setItem(TOKEN_KEYS.ACCESS_TOKEN, accessToken);
-  localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, refreshToken);
-};
-
-// Helper to safely redirect to login
-const safeRedirectToLogin = () => {
-  if (isRedirecting || typeof window === "undefined") return;
-
-  const currentPath = window.location.pathname;
-  const isPublicPath = PUBLIC_PATHS.some((path) => currentPath.startsWith(path));
-
-  if (!isPublicPath) {
-    isRedirecting = true;
-
-    // Clear all auth data
-    localStorage.removeItem(TOKEN_KEYS.ACCESS_TOKEN);
-    localStorage.removeItem(TOKEN_KEYS.REFRESH_TOKEN);
-
-    // Use window.location.href for a full page reload to clear any state
-    window.location.href = ROUTES.LOGIN;
-  }
-};
-
-// Helper to attempt token refresh
-const attemptTokenRefresh = async (): Promise<boolean> => {
-  // Use Promise-based approach to prevent race conditions
-  if (refreshPromise) {
-    return refreshPromise;
-  }
-
-  const refreshToken = getRefreshToken();
-  if (!refreshToken) {
-    return false;
-  }
-
-  refreshPromise = (async () => {
-    try {
-      // Use the separate refreshApi instance to avoid interceptors
-      const response = await refreshApi.post("auth/refresh-token", {
-        refresh_token: refreshToken,
-      });
-
-      // Update tokens
-      updateTokens(
-        response.data.data?.accessToken,
-        response.data.data?.refreshToken,
-        response.data.data?.refreshTokenExpiresAt,
-      );
-
-      return true;
-    } catch (error) {
-      return false;
-    } finally {
-      refreshPromise = null;
-    }
-  })();
-
-  return refreshPromise;
-};
 
 // Request interceptor
 api.interceptors.request.use(
@@ -137,7 +55,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       // Try to refresh the token
-      const refreshSuccess = await attemptTokenRefresh();
+      const refreshSuccess = await attemptTokenRefresh(refreshPromise, refreshApi);
 
       if (refreshSuccess) {
         // Get the new access token
@@ -151,7 +69,7 @@ api.interceptors.response.use(
       }
 
       // If refresh failed or no new token, redirect to login
-      safeRedirectToLogin();
+      safeRedirectToLogin(isRedirecting);
     }
 
     // Transform error to a consistent format
