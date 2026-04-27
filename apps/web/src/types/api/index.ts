@@ -14,11 +14,13 @@ interface ApiErrorResponseT {
 }
 
 interface ApiPaginationResponseT<T> {
-  totalCount: number;
-  totalPages: number;
-  pageNumber: number;
-  pageSize: number;
-  skip: number;
+  pagination: {
+    totalCount: number;
+    totalPages: number;
+    pageNumber: number;
+    pageSize: number;
+    skip: number;
+  };
   data: T[];
 }
 
