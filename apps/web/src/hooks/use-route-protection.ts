@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
 
