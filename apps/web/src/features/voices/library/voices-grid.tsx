@@ -1,7 +1,7 @@
 import { VoiceT } from "@/services/voices/types";
-import EmptyState from "@/features/voices/library/empty-state";
-import LoadingState from "@/features/voices/library/loading-state";
-import VoiceCard from "@/features/voices/library/voice-card";
+import VoiceCard from "@/features/voices/voice-card";
+import EmptyState from "@/features/voices/empty-state";
+import LoadingState from "@/features/voices/loading-state";
 
 interface VoicesGridProps {
   isLoading: boolean;
@@ -25,7 +25,6 @@ const VoicesGrid = ({ isLoading, voices }: VoicesGridProps) => {
           language={voice.language}
           gender={voice.gender}
           accent={voice.accent}
-          previewUrl={voice.previewUrl}
           id={voice.id}
         />
       ))}
