@@ -82,7 +82,7 @@ export const listAllVoicesService = async (filters: FiltersT, pagination: Pagina
   const totalPages = Math.ceil(totalCount / limit);
 
   return {
-    voices,
+    data: voices,
     pagination: {
       totalCount,
       totalPages,
