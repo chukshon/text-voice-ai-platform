@@ -1,4 +1,4 @@
-import { z } from "@repo/common";
+import z from "zod";
 import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
 
 export const getLibraryQuerySchema = z.object({
@@ -33,7 +33,7 @@ const baseVoiceSchema = z.object({
   metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
-export const createVoiceSchema = baseVoiceSchema;
+export const createVoiceSchema = baseVoiceSchema.partial();
 
 export const updateVoiceSchema = baseVoiceSchema.omit({ category: true }).partial();
 
