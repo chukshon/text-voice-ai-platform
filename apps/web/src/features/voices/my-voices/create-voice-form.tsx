@@ -13,22 +13,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { toast } from "react-hot-toast";
-import { useRouter } from "nextjs-toploader/app";
-import { ROUTES } from "@/constants";
 import { CreateVoiceInputT, createVoiceSchema } from "@/schema/voices.schema";
 import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
-import { useCreateVoiceMutation } from "@/services/voices/mutations";
+import { ApiErrorResponseT } from "@/types/api";
+import { useEffect } from "react";
+import {
+  VOICE_GENDER_OPTIONS,
+  VOICE_LANGUAGE_OPTIONS,
+  VOICE_CATEGORY_OPTIONS,
+} from "@/constants/voice";
 
-const CreateVoiceForm = () => {
-  const router = useRouter();
-  const {
-    mutate: createVoiceMutation,
-    isPending: loading,
-    error: createVoiceError,
-  } = useCreateVoiceMutation();
+interface CreateVoiceFormProps {
+  handleSubmit: (data: CreateVoiceInputT) => void;
+  isCreateVoiceLoading: boolean;
+  isCreateVoiceSuccess: boolean;
+  createVoiceError: ApiErrorResponseT | null;
+  handleResetForm: () => void;
+}
+
+const CreateVoiceForm = ({
+  handleResetForm,
+  handleSubmit,
+  isCreateVoiceLoading,
+  createVoiceError,
+  isCreateVoiceSuccess,
+}: CreateVoiceFormProps) => {
   const form = useForm<CreateVoiceInputT>({
     resolver: zodResolver(createVoiceSchema),
     defaultValues: {
@@ -43,8 +54,14 @@ const CreateVoiceForm = () => {
   });
 
   function onSubmit(data: CreateVoiceInputT) {
-    console.log(data);
+    handleSubmit(data);
   }
+
+  useEffect(() => {
+    if (isCreateVoiceSuccess === true) {
+      handleResetForm();
+    }
+  }, [handleResetForm, isCreateVoiceSuccess]);
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       {createVoiceError && (
@@ -108,8 +125,14 @@ const CreateVoiceForm = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value={VoiceCategoryEnum.CUSTOM}>Custom</SelectItem>
-                    <SelectItem value={VoiceCategoryEnum.CLONED}>Cloned</SelectItem>
+                    {VOICE_CATEGORY_OPTIONS.filter(
+                      (option) =>
+                        option.value !== "all" && option.value !== VoiceCategoryEnum.PREMADE,
+                    ).map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -129,11 +152,13 @@ const CreateVoiceForm = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="es">Spanish</SelectItem>
-                    <SelectItem value="fr">French</SelectItem>
-                    <SelectItem value="de">German</SelectItem>
-                    <SelectItem value="ja">Japanese</SelectItem>
+                    {VOICE_LANGUAGE_OPTIONS.filter((option) => option.value !== "all").map(
+                      (option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -153,9 +178,13 @@ const CreateVoiceForm = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="neutral">Neutral</SelectItem>
+                    {VOICE_GENDER_OPTIONS.filter((option) => option.value !== "all").map(
+                      (option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectContent>
                 </Select>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -199,8 +228,8 @@ const CreateVoiceForm = () => {
         />
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? <Loader2 className="size-4 animate-spin" /> : "Create voice"}
+      <Button type="submit" className="w-full" disabled={isCreateVoiceLoading}>
+        {isCreateVoiceLoading ? <Loader2 className="size-4 animate-spin" /> : "Create voice"}
       </Button>
     </form>
   );
