@@ -5,7 +5,8 @@ import { GetLibraryQueryT } from "@/schema/voices.schema";
 import { useDebounce } from "@/hooks/use-debounce";
 import Header from "@/features/voices/library/header";
 import LibraryListFilter from "@/features/voices/library/library-list-filter";
-import { Skeleton } from "@/components/ui/skeleton";
+
+import VoicesGrid from "@/features/voices/library/voices-grid";
 
 const VoicesLibraryPage = () => {
   const [query, setQuery] = useState<GetLibraryQueryT>({
@@ -37,6 +38,9 @@ const VoicesLibraryPage = () => {
 
       {/* Filters */}
       <LibraryListFilter query={query} handleQueryChange={handleQueryChange} />
+
+      {/* Voices Grid */}
+      <VoicesGrid isLoading={isLoadingLibrary} voices={libraryData?.data?.data} />
     </div>
   );
 };
