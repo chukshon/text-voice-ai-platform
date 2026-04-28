@@ -18,3 +18,15 @@ export interface VoiceT {
 }
 
 export type GetLibraryResponseT = ApiSuccessResponseT<ApiPaginationResponseT<VoiceT>>;
+
+export interface CreateVoicePayloadT {
+  name: string;
+  description: string | null;
+  category: VoiceCategoryEnum;
+  language: string;
+  gender: VoiceGenderEnum;
+  accent: string | null;
+  isPublic: boolean;
+}
+
+export type CreateVoiceResponseT = ApiSuccessResponseT<VoiceT>;
