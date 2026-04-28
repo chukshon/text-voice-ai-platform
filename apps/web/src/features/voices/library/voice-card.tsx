@@ -11,7 +11,6 @@ interface VoiceCardProps {
   language: string;
   gender: VoiceGenderEnum;
   accent: string | null;
-  previewUrl: string | null;
   id: string;
 }
 const VoiceCard = ({
@@ -21,7 +20,6 @@ const VoiceCard = ({
   language,
   gender,
   accent,
-  previewUrl,
   id,
 }: VoiceCardProps) => {
   return (
