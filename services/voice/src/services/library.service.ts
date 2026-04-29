@@ -64,6 +64,9 @@ export const listAllVoicesService = async (filters: FiltersT, pagination: Pagina
     prisma.voice.findMany({
       where: {
         ...filterConditions,
+        AND: {
+          isPublic: true,
+        },
       },
       skip,
       take: limit,
