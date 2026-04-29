@@ -3,11 +3,11 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 
 interface SampleUploadProps {
-  uploading: boolean;
-  handleUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isUploadingSample: boolean;
+  handleUploadSample: (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileRef: React.RefObject<HTMLInputElement | null>;
 }
-const SampleUpload = ({ uploading, handleUpload, fileRef }: SampleUploadProps) => {
+const SampleUpload = ({ isUploadingSample, handleUploadSample, fileRef }: SampleUploadProps) => {
   return (
     <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border p-6">
       <Upload className="size-8 text-muted-foreground/50" />
@@ -20,10 +20,10 @@ const SampleUpload = ({ uploading, handleUpload, fileRef }: SampleUploadProps) =
       <Button
         variant="outline"
         size="sm"
-        disabled={uploading}
+        disabled={isUploadingSample}
         onClick={() => fileRef.current?.click()}
       >
-        {uploading ? (
+        {isUploadingSample ? (
           <>
             <Loader2 className="size-3.5 animate-spin" />
             Uploading...
@@ -40,7 +40,7 @@ const SampleUpload = ({ uploading, handleUpload, fileRef }: SampleUploadProps) =
         type="file"
         className="hidden"
         accept="audio/mpeg,audio/wav,audio/ogg,audio/flac,audio/mp4,audio/webm"
-        onChange={handleUpload}
+        onChange={handleUploadSample}
       />
     </div>
   );

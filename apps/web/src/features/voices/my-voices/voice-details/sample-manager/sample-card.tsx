@@ -8,7 +8,7 @@ interface SampleCardProps {
   sampleDurationMs: number | null;
   sampleMimeType: string;
   sampleId: string;
-  deletingId: string;
+  deletingId: string | null;
   handleDelete: (sampleId: string) => void;
 }
 const SampleCard = ({
