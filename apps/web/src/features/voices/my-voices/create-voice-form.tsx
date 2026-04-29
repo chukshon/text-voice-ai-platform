@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CreateVoiceInputT } from "@/schema/voices.schema";
+import { CreateVoicePayloadT } from "@/schema/voices.schema";
 import { VoiceCategoryEnum } from "@repo/db";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
@@ -24,8 +24,8 @@ import {
 } from "@/constants/voice";
 
 interface CreateVoiceFormProps {
-  form: UseFormReturn<CreateVoiceInputT>;
-  onSubmit: (data: CreateVoiceInputT) => void;
+  form: UseFormReturn<CreateVoicePayloadT>;
+  onSubmit: (data: CreateVoicePayloadT) => void;
   isCreateVoiceLoading: boolean;
   isCreateVoiceSuccess: boolean;
   createVoiceError: ApiErrorResponseT | null;

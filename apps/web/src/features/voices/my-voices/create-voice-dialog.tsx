@@ -1,7 +1,6 @@
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { CreateVoiceInputT, createVoiceSchema } from "@/schema/voices.schema";
+import { CreateVoicePayloadT, createVoiceSchema } from "@/schema/voices.schema";
 import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
 import {
   Dialog,
@@ -13,6 +12,7 @@ import {
 import CreateVoiceForm from "./create-voice-form";
 import { useCreateVoiceMutation } from "@/services/voices/mutations";
 import { VoiceT } from "@/services/voices/types";
+import { toast } from "react-hot-toast";
 
 interface CreateVoiceDialogProps {
   open: boolean;
@@ -20,8 +20,8 @@ interface CreateVoiceDialogProps {
   onCreated: (voice: VoiceT) => void;
 }
 
-const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
-  const form = useForm<CreateVoiceInputT>({
+const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogProps) => {
+  const form = useForm<CreateVoicePayloadT>({
     resolver: zodResolver(createVoiceSchema),
     defaultValues: {
       name: "",
@@ -34,9 +34,6 @@ const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
     },
   });
 
-  function onSubmit(data: CreateVoiceInputT) {
-    console.log("data", data);
-  }
   const {
     mutate: createVoiceMutation,
     isPending: loading,
@@ -51,6 +48,17 @@ const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
 
   const handleReset = () => {
     form.reset();
+  };
+
+  const onSubmit = (data: CreateVoicePayloadT) => {
+    createVoiceMutation(data, {
+      onSuccess: (response) => {
+        handleReset();
+        onCreated(response.data as VoiceT);
+        handleOpenChange(false);
+        toast.success("Voice created successfully");
+      },
+    });
   };
 
   return (
