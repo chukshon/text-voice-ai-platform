@@ -20,11 +20,14 @@ const VoiceCard = ({
   voiceIsPublic,
 }: VoiceCardProps) => {
   const router = useRouter();
+  const handleSelectVoice = () => {
+    router.push(`/voices/${voiceId}`);
+  };
   return (
     <button
       key={voiceId}
-      onClick={() => router.push(`/voices/${voiceId}`)}
-      className="flex w-full items-center gap-3 rounded-lg border border-border/50 p-4 text-left transition-colors hover:border-border hover:bg-foreground/[0.02]"
+      onClick={handleSelectVoice}
+      className="flex cursor-pointer w-full items-center gap-3 rounded-lg border border-border/50 p-4 text-left transition-colors hover:border-border hover:bg-foreground/[0.02]"
     >
       <VoiceAvatar name={voiceName} />
       <div className="min-w-0 flex-1">
