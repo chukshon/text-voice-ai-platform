@@ -33,10 +33,10 @@ const baseVoiceSchema = z.object({
   metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
-export const createVoiceSchema = baseVoiceSchema.partial();
+export const createVoiceSchema = baseVoiceSchema;
 
 export const updateVoiceSchema = baseVoiceSchema.omit({ category: true }).partial();
 
-export type CreateVoiceInputT = z.infer<typeof createVoiceSchema>;
-export type UpdateVoiceInputT = z.infer<typeof updateVoiceSchema>;
+export type CreateVoicePayloadT = z.input<typeof createVoiceSchema>;
+export type UpdateVoicePayloadT = z.input<typeof updateVoiceSchema>;
 export type GetLibraryQueryT = z.infer<typeof getLibraryQuerySchema>;

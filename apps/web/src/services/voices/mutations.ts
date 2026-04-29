@@ -1,4 +1,5 @@
-import { CreateVoicePayloadT, CreateVoiceResponseT } from "@/services/voices/types";
+import { CreateVoiceResponseT } from "@/services/voices/types";
+import { CreateVoicePayloadT } from "@/schema/voices.schema";
 import { createVoiceRequest } from "@/services/voices/requests";
 import { ApiErrorResponseT } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";

@@ -2,7 +2,8 @@ import api from "@/config/axios";
 import { GetLibraryQueryT } from "@/schema/voices.schema";
 import { GetLibraryResponseT } from "@/services/voices/types";
 import { toQueryString } from "@/lib/utils";
-import { CreateVoicePayloadT, CreateVoiceResponseT } from "@/services/voices/types";
+import { CreateVoiceResponseT } from "@/services/voices/types";
+import { CreateVoicePayloadT } from "@/schema/voices.schema";
 
 export const getLibraryRequest = async (
   payload: GetLibraryQueryT,
