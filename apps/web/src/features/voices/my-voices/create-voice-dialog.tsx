@@ -1,4 +1,8 @@
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { CreateVoiceInputT, createVoiceSchema } from "@/schema/voices.schema";
+import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +11,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import CreateVoiceForm from "./create-voice-form";
-import { useRouter } from "nextjs-toploader/app";
 import { useCreateVoiceMutation } from "@/services/voices/mutations";
-import { CreateVoiceInputT } from "@/schema/voices.schema";
 import { VoiceT } from "@/services/voices/types";
 
 interface CreateVoiceDialogProps {
@@ -19,6 +21,22 @@ interface CreateVoiceDialogProps {
 }
 
 const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
+  const form = useForm<CreateVoiceInputT>({
+    resolver: zodResolver(createVoiceSchema),
+    defaultValues: {
+      name: "",
+      category: VoiceCategoryEnum.CUSTOM,
+      language: "en",
+      gender: VoiceGenderEnum.FEMALE,
+      isPublic: false,
+      description: "",
+      accent: "",
+    },
+  });
+
+  function onSubmit(data: CreateVoiceInputT) {
+    console.log("data", data);
+  }
   const {
     mutate: createVoiceMutation,
     isPending: loading,
@@ -31,10 +49,8 @@ const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
     onOpenChange(value);
   };
 
-  const handleReset = () => {};
-
-  const handleSubmit = (data: CreateVoiceInputT) => {
-    // createVoiceMutation(data);
+  const handleReset = () => {
+    form.reset();
   };
 
   return (
@@ -46,8 +62,8 @@ const CreateVoiceDialog = ({ open, onOpenChange }: CreateVoiceDialogProps) => {
             <DialogDescription>Add a new custom voice to your collection.</DialogDescription>
           </DialogHeader>
           <CreateVoiceForm
-            handleResetForm={handleReset}
-            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            form={form}
             isCreateVoiceSuccess={isCreateVoiceSuccess}
             isCreateVoiceLoading={loading}
             createVoiceError={createVoiceError}

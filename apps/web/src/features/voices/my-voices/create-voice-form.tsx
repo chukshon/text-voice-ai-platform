@@ -1,7 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, UseFormReturn } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import {
   Select,
@@ -13,12 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CreateVoiceInputT, createVoiceSchema } from "@/schema/voices.schema";
-import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
+import { CreateVoiceInputT } from "@/schema/voices.schema";
+import { VoiceCategoryEnum } from "@repo/db";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
 import { ApiErrorResponseT } from "@/types/api";
-import { useEffect } from "react";
 import {
   VOICE_GENDER_OPTIONS,
   VOICE_LANGUAGE_OPTIONS,
@@ -26,42 +24,19 @@ import {
 } from "@/constants/voice";
 
 interface CreateVoiceFormProps {
-  handleSubmit: (data: CreateVoiceInputT) => void;
+  form: UseFormReturn<CreateVoiceInputT>;
+  onSubmit: (data: CreateVoiceInputT) => void;
   isCreateVoiceLoading: boolean;
   isCreateVoiceSuccess: boolean;
   createVoiceError: ApiErrorResponseT | null;
-  handleResetForm: () => void;
 }
 
 const CreateVoiceForm = ({
-  handleResetForm,
-  handleSubmit,
+  onSubmit,
   isCreateVoiceLoading,
   createVoiceError,
-  isCreateVoiceSuccess,
+  form,
 }: CreateVoiceFormProps) => {
-  const form = useForm<CreateVoiceInputT>({
-    resolver: zodResolver(createVoiceSchema),
-    defaultValues: {
-      name: "",
-      category: VoiceCategoryEnum.CUSTOM,
-      language: "en",
-      gender: VoiceGenderEnum.FEMALE,
-      isPublic: false,
-      description: "",
-      accent: "",
-    },
-  });
-
-  function onSubmit(data: CreateVoiceInputT) {
-    handleSubmit(data);
-  }
-
-  useEffect(() => {
-    if (isCreateVoiceSuccess === true) {
-      handleResetForm();
-    }
-  }, [handleResetForm, isCreateVoiceSuccess]);
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       {createVoiceError && (
