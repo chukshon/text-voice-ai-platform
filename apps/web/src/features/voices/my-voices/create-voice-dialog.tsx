@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import CreateVoiceForm from "./create-voice-form";
 import { useCreateVoiceMutation } from "@/services/voices/mutations";
-import { VoiceT } from "@/services/voices/types";
 import { toast } from "react-hot-toast";
 
 interface CreateVoiceDialogProps {

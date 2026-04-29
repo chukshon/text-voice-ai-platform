@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { VoiceAvatar } from "@/components/ui/voice-avatar";
+import { ROUTES } from "@/constants";
 import { Globe } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 
@@ -21,7 +22,7 @@ const VoiceCard = ({
 }: VoiceCardProps) => {
   const router = useRouter();
   const handleSelectVoice = () => {
-    router.push(`/voices/${voiceId}`);
+    router.push(`${ROUTES.VOICES}/${voiceId}`);
   };
   return (
     <button

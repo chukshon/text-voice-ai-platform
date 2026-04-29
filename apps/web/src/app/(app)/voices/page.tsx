@@ -5,13 +5,14 @@ import CreateVoiceDialog from "@/features/voices/my-voices/create-voice-dialog";
 import { useGetVoices } from "@/services/voices/queries";
 import Header from "@/features/voices/my-voices/header";
 import VoicesList from "@/features/voices/my-voices/voices-list";
+import { ROUTES } from "@/constants";
 
 const VoicesPage = () => {
   const router = useRouter();
   const [showCreateVoiceDialog, setShowCreateVoiceDialog] = useState(false);
   const { data: voices, isLoading: loading } = useGetVoices();
   const handleOnCreated = (voiceId: string) => {
-    router.push(`/voices/${voiceId}`);
+    router.push(`${ROUTES.VOICES}/${voiceId}`);
   };
   return (
     <div className="p-8">
