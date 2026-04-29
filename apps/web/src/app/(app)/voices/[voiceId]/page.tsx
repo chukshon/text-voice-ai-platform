@@ -8,6 +8,8 @@ import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
 import { ArrowLeft } from "lucide-react";
 import VoiceDetailsTab from "@/features/voices/my-voices/voice-details/voice-details-tab";
+import DeleteVoiceDialog from "@/features/voices/my-voices/voice-details/delete-voice-dialog";
+import { useDeleteVoiceMutation } from "@/services/voices/mutations";
 
 const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) => {
   const resolvedParams = React.use(params);
@@ -16,9 +18,15 @@ const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) 
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { data: voice, isLoading: isLoadingVoice } = useGetVoiceById(voiceId);
+  const { mutate: deleteVoice, isPending: isDeletingVoice } = useDeleteVoiceMutation();
 
-  const handleDelete = () => {
-    setShowDeleteDialog(true);
+  const handleDeleteVoice = () => {
+    deleteVoice(voiceId, {
+      onSuccess: () => {
+        setShowDeleteDialog(false);
+        router.push(ROUTES.VOICES);
+      },
+    });
   };
 
   const handleBackToVoices = () => {
@@ -50,11 +58,19 @@ const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) 
         voiceGender={voice.data?.gender}
         voiceAccent={voice.data?.accent}
         voiceIsPublic={voice.data?.isPublic}
-        handleDelete={handleDelete}
+        handleShowDeleteDialog={() => setShowDeleteDialog(true)}
       />
 
       {/* Tabs */}
       <VoiceDetailsTab voice={voice.data} />
+
+      <DeleteVoiceDialog
+        showDeleteDialog={showDeleteDialog}
+        setShowDeleteDialog={setShowDeleteDialog}
+        voiceName={voice.data?.name as string}
+        handleDeleteVoice={handleDeleteVoice}
+        isDeletingVoice={isDeletingVoice}
+      />
     </div>
   );
 };

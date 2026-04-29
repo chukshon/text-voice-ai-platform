@@ -10,7 +10,7 @@ type HeaderProps = {
   voiceGender?: string;
   voiceAccent?: string | null;
   voiceIsPublic?: boolean;
-  handleDelete: () => void;
+  handleShowDeleteDialog: () => void;
 };
 const Header = ({
   voiceName,
@@ -19,7 +19,7 @@ const Header = ({
   voiceGender,
   voiceAccent,
   voiceIsPublic,
-  handleDelete,
+  handleShowDeleteDialog,
 }: HeaderProps) => {
   return (
     <div className="mb-8 flex items-start justify-between">
@@ -53,7 +53,7 @@ const Header = ({
         variant="ghost"
         size="icon"
         className="text-muted-foreground hover:text-destructive"
-        onClick={handleDelete}
+        onClick={handleShowDeleteDialog}
       >
         <Trash2 className="size-4" />
       </Button>
