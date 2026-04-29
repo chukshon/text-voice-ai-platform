@@ -20,3 +20,5 @@ export interface VoiceT {
 export type GetLibraryResponseT = ApiSuccessResponseT<ApiPaginationResponseT<VoiceT>>;
 
 export type CreateVoiceResponseT = ApiSuccessResponseT<VoiceT>;
+
+export type GetVoicesResponseT = ApiSuccessResponseT<VoiceT[]>;
