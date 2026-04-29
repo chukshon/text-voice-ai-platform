@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { CreateVoicePayloadT } from "@/schema/voices.schema";
-import { VoiceCategoryEnum } from "@repo/db";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
 import { ApiErrorResponseT } from "@/types/api";
@@ -21,6 +20,7 @@ import {
   VOICE_GENDER_OPTIONS,
   VOICE_LANGUAGE_OPTIONS,
   VOICE_CATEGORY_OPTIONS,
+  VoiceCategoryEnum,
 } from "@/constants/voice";
 
 interface CreateVoiceFormProps {
