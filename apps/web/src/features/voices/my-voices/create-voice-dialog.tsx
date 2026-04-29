@@ -63,19 +63,17 @@ const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogP
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-md">
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Create a voice</DialogTitle>
-            <DialogDescription>Add a new custom voice to your collection.</DialogDescription>
-          </DialogHeader>
-          <CreateVoiceForm
-            onSubmit={onSubmit}
-            form={form}
-            isCreateVoiceSuccess={isCreateVoiceSuccess}
-            isCreateVoiceLoading={loading}
-            createVoiceError={createVoiceError}
-          />
-        </DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create a voice</DialogTitle>
+          <DialogDescription>Add a new custom voice to your collection.</DialogDescription>
+        </DialogHeader>
+        <CreateVoiceForm
+          onSubmit={onSubmit}
+          form={form}
+          isCreateVoiceSuccess={isCreateVoiceSuccess}
+          isCreateVoiceLoading={loading}
+          createVoiceError={createVoiceError}
+        />
       </DialogContent>
     </Dialog>
   );
