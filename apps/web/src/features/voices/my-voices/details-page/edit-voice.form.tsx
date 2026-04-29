@@ -7,7 +7,6 @@ import {
   VoiceGenderEnum,
   VoiceLanguageEnum,
 } from "@/constants/voice";
-import { ApiErrorResponseT } from "@/types/api";
 import { VoiceT } from "@/services/voices/types";
 import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -23,22 +22,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useUpdateVoiceMutation } from "@/services/voices/mutations";
+import { useState } from "react";
 
 interface EditVoiceFormProps {
-  updateVoiceError: ApiErrorResponseT | null;
-  isUpdateVoiceLoading: boolean;
-  onSubmit: (data: UpdateVoicePayloadT) => void;
+  onUpdated: (voice: VoiceT) => void;
   voice: VoiceT;
-  isSaved: boolean;
 }
 
-const EditVoiceForm = ({
-  updateVoiceError,
-  voice,
-  isUpdateVoiceLoading,
-  isSaved,
-  onSubmit,
-}: EditVoiceFormProps) => {
+const EditVoiceForm = ({ voice, onUpdated }: EditVoiceFormProps) => {
+  const [isSaved, setIsSaved] = useState(false);
+  const {
+    mutate: updateVoiceMutation,
+    isPending: isUpdateVoiceLoading,
+    error: updateVoiceError,
+  } = useUpdateVoiceMutation();
   const form = useForm<UpdateVoicePayloadT>({
     resolver: zodResolver(updateVoiceSchema),
     defaultValues: {
@@ -51,6 +49,18 @@ const EditVoiceForm = ({
       accent: voice.accent || "",
     },
   });
+
+  const onSubmit = (data: UpdateVoicePayloadT) => {
+    updateVoiceMutation(data, {
+      onSuccess: (response) => {
+        onUpdated(response.data as VoiceT);
+        setIsSaved(true);
+        setTimeout(() => {
+          setIsSaved(false);
+        }, 3000);
+      },
+    });
+  };
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
