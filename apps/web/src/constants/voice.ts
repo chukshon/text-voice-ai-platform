@@ -1,22 +1,42 @@
+enum VoiceCategoryEnum {
+  PREMADE = "PREMADE",
+  CLONED = "CLONED",
+  CUSTOM = "CUSTOM",
+}
+
+enum VoiceGenderEnum {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  NEUTRAL = "NEUTRAL",
+}
+
+enum VoiceLanguageEnum {
+  ENGLISH = "en",
+  SPANISH = "es",
+  FRENCH = "fr",
+  GERMAN = "de",
+  JAPANESE = "ja",
+}
+
 export const VOICE_CATEGORY_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Premade", value: "PREMADE" },
-  { label: "Cloned", value: "CLONED" },
-  { label: "Custom", value: "CUSTOM" },
+  { label: "Premade", value: VoiceCategoryEnum.PREMADE },
+  { label: "Cloned", value: VoiceCategoryEnum.CLONED },
+  { label: "Custom", value: VoiceCategoryEnum.CUSTOM },
 ];
 
 export const VOICE_GENDER_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "Male", value: "MALE" },
-  { label: "Female", value: "FEMALE" },
-  { label: "Neutral", value: "NEUTRAL" },
+  { label: "Male", value: VoiceGenderEnum.MALE },
+  { label: "Female", value: VoiceGenderEnum.FEMALE },
+  { label: "Neutral", value: VoiceGenderEnum.NEUTRAL },
 ];
 
 export const VOICE_LANGUAGE_OPTIONS = [
   { label: "All", value: "all" },
-  { label: "English", value: "en" },
-  { label: "Spanish", value: "es" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Japanese", value: "ja" },
+  { label: "English", value: VoiceLanguageEnum.ENGLISH },
+  { label: "Spanish", value: VoiceLanguageEnum.SPANISH },
+  { label: "French", value: VoiceLanguageEnum.FRENCH },
+  { label: "German", value: VoiceLanguageEnum.GERMAN },
+  { label: "Japanese", value: VoiceLanguageEnum.JAPANESE },
 ];
