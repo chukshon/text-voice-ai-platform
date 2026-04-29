@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 interface CreateVoiceDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreated: (voice: VoiceT) => void;
+  onCreated: (voiceId: string) => void;
 }
 
 const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogProps) => {
@@ -54,7 +54,7 @@ const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogP
     createVoiceMutation(data, {
       onSuccess: (response) => {
         handleReset();
-        onCreated(response.data as VoiceT);
+        onCreated(response.data?.id as string);
         handleOpenChange(false);
         toast.success("Voice created successfully");
       },
