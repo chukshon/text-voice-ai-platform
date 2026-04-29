@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CreateVoicePayloadT, createVoiceSchema } from "@/schema/voices.schema";
-import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
+import { VoiceCategoryEnum, VoiceGenderEnum, VoiceLanguageEnum } from "@/constants/voice";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +26,7 @@ const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogP
     defaultValues: {
       name: "",
       category: VoiceCategoryEnum.CUSTOM,
-      language: "en",
+      language: VoiceLanguageEnum.ENGLISH,
       gender: VoiceGenderEnum.FEMALE,
       isPublic: false,
       description: "",

@@ -1,16 +1,16 @@
-enum VoiceCategoryEnum {
+export enum VoiceCategoryEnum {
   PREMADE = "PREMADE",
   CLONED = "CLONED",
   CUSTOM = "CUSTOM",
 }
 
-enum VoiceGenderEnum {
+export enum VoiceGenderEnum {
   MALE = "MALE",
   FEMALE = "FEMALE",
   NEUTRAL = "NEUTRAL",
 }
 
-enum VoiceLanguageEnum {
+export enum VoiceLanguageEnum {
   ENGLISH = "en",
   SPANISH = "es",
   FRENCH = "fr",
