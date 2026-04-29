@@ -11,8 +11,12 @@ const VoiceDetailsTab = ({ voice }: VoiceDetailsTabProps) => {
   return (
     <Tabs defaultValue="settings">
       <TabsList>
-        <TabsTrigger value="settings">Settings</TabsTrigger>
-        <TabsTrigger value="samples">Samples</TabsTrigger>
+        <TabsTrigger className="cursor-pointer" value="settings">
+          Settings
+        </TabsTrigger>
+        <TabsTrigger className="cursor-pointer" value="samples">
+          Samples
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="settings" className="mt-6 max-w-md">
