@@ -4,6 +4,7 @@ import {
   GetLibraryResponseT,
   GetVoiceByIdResponseT,
   UpdateVoiceResponseT,
+  DeleteVoiceResponseT,
 } from "@/services/voices/types";
 import { toQueryString } from "@/lib/utils";
 import { CreateVoiceResponseT, GetVoicesResponseT } from "@/services/voices/types";
@@ -37,5 +38,10 @@ export const getVoicesRequest = async (): Promise<GetVoicesResponseT> => {
 
 export const getVoiceByIdRequest = async (voiceId: string): Promise<GetVoiceByIdResponseT> => {
   const { data } = await api.get<GetVoiceByIdResponseT>(`/voices/${voiceId}`);
+  return data;
+};
+
+export const deleteVoiceRequest = async (voiceId: string): Promise<DeleteVoiceResponseT> => {
+  const { data } = await api.delete<DeleteVoiceResponseT>(`/voices/${voiceId}`);
   return data;
 };

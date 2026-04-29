@@ -26,3 +26,5 @@ export type UpdateVoiceResponseT = ApiSuccessResponseT<VoiceT>;
 export type GetVoicesResponseT = ApiSuccessResponseT<VoiceT[]>;
 
 export type GetVoiceByIdResponseT = ApiSuccessResponseT<VoiceT>;
+
+export type DeleteVoiceResponseT = ApiSuccessResponseT<void>;

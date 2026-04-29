@@ -1,6 +1,14 @@
-import { CreateVoiceResponseT, UpdateVoiceResponseT } from "@/services/voices/types";
+import {
+  CreateVoiceResponseT,
+  DeleteVoiceResponseT,
+  UpdateVoiceResponseT,
+} from "@/services/voices/types";
 import { CreateVoicePayloadT, UpdateVoicePayloadT } from "@/schema/voices.schema";
-import { createVoiceRequest, updateVoiceRequest } from "@/services/voices/requests";
+import {
+  createVoiceRequest,
+  deleteVoiceRequest,
+  updateVoiceRequest,
+} from "@/services/voices/requests";
 import { ApiErrorResponseT } from "@/types/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -25,6 +33,22 @@ export const useUpdateVoiceMutation = () => {
     mutationFn: updateVoiceRequest,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["get-voices"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const useDeleteVoiceMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<DeleteVoiceResponseT, ApiErrorResponseT, string>({
+    mutationFn: deleteVoiceRequest,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["get-voices"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };
