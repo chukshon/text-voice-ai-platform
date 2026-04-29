@@ -95,7 +95,7 @@ const CreateVoiceForm = ({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel>Category</FieldLabel>
-                <Select {...field}>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -122,7 +122,7 @@ const CreateVoiceForm = ({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel>Language</FieldLabel>
-                <Select {...field}>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -141,6 +141,7 @@ const CreateVoiceForm = ({
             )}
           />
         </div>
+
         <div className="space-y-2">
           <Controller
             name="gender"
@@ -148,7 +149,7 @@ const CreateVoiceForm = ({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 <FieldLabel>Gender</FieldLabel>
-                <Select {...field}>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
