@@ -2,49 +2,37 @@ import { Button } from "@/components/ui/button";
 import { VoiceAvatar } from "@/components/ui/voice-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Globe, Trash2 } from "lucide-react";
+import { VoiceT } from "@/services/voices/types";
 
 type HeaderProps = {
-  voiceName?: string;
-  voiceCategory?: string;
-  voiceLanguage?: string;
-  voiceGender?: string;
-  voiceAccent?: string | null;
-  voiceIsPublic?: boolean;
+  voice?: VoiceT;
   handleShowDeleteDialog: () => void;
 };
-const Header = ({
-  voiceName,
-  voiceCategory,
-  voiceLanguage,
-  voiceGender,
-  voiceAccent,
-  voiceIsPublic,
-  handleShowDeleteDialog,
-}: HeaderProps) => {
+const Header = ({ voice, handleShowDeleteDialog }: HeaderProps) => {
   return (
     <div className="mb-8 flex items-start justify-between">
       <div className="flex items-center gap-4">
-        <VoiceAvatar name={voiceName as string} size="lg" />
+        <VoiceAvatar name={voice?.name as string} size="lg" />
         <div>
-          <h1 className="text-xl font-bold">{voiceName}</h1>
+          <h1 className="text-xl font-bold">{voice?.name}</h1>
           <div className="mt-1.5 flex items-center gap-1.5">
             <Badge variant="secondary" className="text-[10px]">
-              {voiceCategory}
+              {voice?.category}
             </Badge>
             <Badge variant="outline" className="text-[10px]">
               <Globe className="mr-0.5 size-2.5" />
-              {voiceLanguage}
+              {voice?.language}
             </Badge>
             <Badge variant="outline" className="text-[10px]">
-              {voiceGender}
+              {voice?.gender}
             </Badge>
-            {voiceAccent && (
+            {voice?.accent && (
               <Badge variant="outline" className="text-[10px]">
-                {voiceAccent}
+                {voice?.accent}
               </Badge>
             )}
             <Badge variant="outline" className="text-[10px]">
-              {voiceIsPublic ? "Public" : "Private"}
+              {voice?.isPublic ? "Public" : "Private"}
             </Badge>
           </div>
         </div>
