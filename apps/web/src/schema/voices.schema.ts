@@ -1,5 +1,5 @@
 import z from "zod";
-import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
+import { VoiceCategoryEnum, VoiceGenderEnum, VoiceLanguageEnum } from "@/constants/voice";
 
 export const getLibraryQuerySchema = z.object({
   searchKeyword: z.string().optional(),
@@ -23,7 +23,7 @@ export const getLibraryQuerySchema = z.object({
 const baseVoiceSchema = z.object({
   name: z.string().min(1, "Name is required").max(255),
   category: z.enum([VoiceCategoryEnum.CLONED, VoiceCategoryEnum.CUSTOM, VoiceCategoryEnum.PREMADE]),
-  language: z.string().min(1).max(10).default("en"),
+  language: z.string().min(1).max(10).default(VoiceLanguageEnum.ENGLISH),
   gender: z
     .enum([VoiceGenderEnum.MALE, VoiceGenderEnum.FEMALE, VoiceGenderEnum.NEUTRAL])
     .default(VoiceGenderEnum.NEUTRAL),
