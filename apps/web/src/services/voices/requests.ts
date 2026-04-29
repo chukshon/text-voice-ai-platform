@@ -1,6 +1,10 @@
 import api from "@/config/axios";
 import { GetLibraryQueryT, UpdateVoicePayloadT } from "@/schema/voices.schema";
-import { GetLibraryResponseT, UpdateVoiceResponseT } from "@/services/voices/types";
+import {
+  GetLibraryResponseT,
+  GetVoiceByIdResponseT,
+  UpdateVoiceResponseT,
+} from "@/services/voices/types";
 import { toQueryString } from "@/lib/utils";
 import { CreateVoiceResponseT, GetVoicesResponseT } from "@/services/voices/types";
 import { CreateVoicePayloadT } from "@/schema/voices.schema";
@@ -28,5 +32,10 @@ export const updateVoiceRequest = async (
 };
 export const getVoicesRequest = async (): Promise<GetVoicesResponseT> => {
   const { data } = await api.get<GetVoicesResponseT>(`/voices`);
+  return data;
+};
+
+export const getVoiceByIdRequest = async (voiceId: string): Promise<GetVoiceByIdResponseT> => {
+  const { data } = await api.get<GetVoiceByIdResponseT>(`/voices/${voiceId}`);
   return data;
 };
