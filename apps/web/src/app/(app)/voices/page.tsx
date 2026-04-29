@@ -16,6 +16,11 @@ const VoicesPage = () => {
       <Header handleCreateVoice={() => setShowCreateVoiceDialog(true)} />
 
       {/* Voice list */}
+      <VoicesList
+        voices={voices?.data}
+        isLoading={loading}
+        handleCreateVoice={() => setShowCreateVoiceDialog(true)}
+      />
 
       <CreateVoiceDialog
         open={showCreateVoiceDialog}

@@ -4,7 +4,7 @@ import EmptyState from "@/features/voices/my-voices/empty-state";
 import VoiceCard from "./voice-card";
 
 interface VoicesListProps {
-  voices: VoiceT[];
+  voices?: VoiceT[];
   isLoading: boolean;
   handleCreateVoice: () => void;
 }
