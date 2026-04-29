@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import CreateVoiceForm from "./create-voice-form";
+import CreateVoiceForm from "@/features/voices/my-voices/create-voice-form";
 import { useCreateVoiceMutation } from "@/services/voices/mutations";
 import { toast } from "react-hot-toast";
 
