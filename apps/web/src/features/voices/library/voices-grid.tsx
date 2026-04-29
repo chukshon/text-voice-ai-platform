@@ -1,6 +1,6 @@
 import { VoiceT } from "@/services/voices/types";
 import VoiceCard from "@/features/voices/voice-card";
-import EmptyState from "@/features/voices/empty-state";
+import EmptyState from "@/features/voices/library/empty-state";
 import LoadingState from "@/features/voices/loading-state";
 
 interface VoicesGridProps {
