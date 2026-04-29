@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 interface SampleUploadProps {
   uploading: boolean;
   handleUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  fileRef: React.RefObject<HTMLInputElement>;
+  fileRef: React.RefObject<HTMLInputElement | null>;
 }
 const SampleUpload = ({ uploading, handleUpload, fileRef }: SampleUploadProps) => {
   return (

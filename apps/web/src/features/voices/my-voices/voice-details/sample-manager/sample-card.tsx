@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 interface SampleCardProps {
   sampleFileName: string;
   sampleSizeBytes: number;
-  sampleDurationMs: number;
+  sampleDurationMs: number | null;
   sampleMimeType: string;
   sampleId: string;
   deletingId: string;
