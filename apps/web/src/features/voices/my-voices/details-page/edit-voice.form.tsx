@@ -27,21 +27,22 @@ import {
 interface EditVoiceFormProps {
   updateVoiceError: ApiErrorResponseT | null;
   isUpdateVoiceLoading: boolean;
-  isUpdateVoiceSuccess: boolean;
   onSubmit: (data: UpdateVoicePayloadT) => void;
   voice: VoiceT;
+  isSaved: boolean;
 }
 
 const EditVoiceForm = ({
   updateVoiceError,
   voice,
   isUpdateVoiceLoading,
-  isUpdateVoiceSuccess,
+  isSaved,
   onSubmit,
 }: EditVoiceFormProps) => {
   const form = useForm<UpdateVoicePayloadT>({
     resolver: zodResolver(updateVoiceSchema),
     defaultValues: {
+      id: voice.id,
       name: voice.name || "",
       language: voice.language || VoiceLanguageEnum.ENGLISH,
       gender: voice.gender || VoiceGenderEnum.NEUTRAL,
@@ -190,7 +191,7 @@ const EditVoiceForm = ({
       </div>
       <Button type="submit" className="w-full" disabled={isUpdateVoiceLoading}>
         {isUpdateVoiceLoading && <Loader2 className="size-4 animate-spin" />}
-        {isUpdateVoiceSuccess ? (
+        {isSaved ? (
           <>
             <Check className="size-3.5" />
             Saved
