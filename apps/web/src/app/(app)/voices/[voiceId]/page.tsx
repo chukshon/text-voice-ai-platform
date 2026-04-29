@@ -7,6 +7,7 @@ import Header from "@/features/voices/my-voices/voice-details/header";
 import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
 import { ArrowLeft } from "lucide-react";
+import VoiceDetailsTab from "@/features/voices/my-voices/voice-details/voice-details-tab";
 
 const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) => {
   const resolvedParams = React.use(params);
@@ -51,6 +52,9 @@ const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) 
         voiceIsPublic={voice.data?.isPublic}
         handleDelete={handleDelete}
       />
+
+      {/* Tabs */}
+      <VoiceDetailsTab voice={voice.data} />
     </div>
   );
 };

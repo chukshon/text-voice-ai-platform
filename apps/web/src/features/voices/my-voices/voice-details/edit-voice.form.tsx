@@ -26,11 +26,10 @@ import { useUpdateVoiceMutation } from "@/services/voices/mutations";
 import { useState } from "react";
 
 interface EditVoiceFormProps {
-  onUpdated: (voice: VoiceT) => void;
-  voice: VoiceT;
+  voice?: VoiceT;
 }
 
-const EditVoiceForm = ({ voice, onUpdated }: EditVoiceFormProps) => {
+const EditVoiceForm = ({ voice }: EditVoiceFormProps) => {
   const [isSaved, setIsSaved] = useState(false);
   const {
     mutate: updateVoiceMutation,
@@ -40,20 +39,19 @@ const EditVoiceForm = ({ voice, onUpdated }: EditVoiceFormProps) => {
   const form = useForm<UpdateVoicePayloadT>({
     resolver: zodResolver(updateVoiceSchema),
     defaultValues: {
-      id: voice.id,
-      name: voice.name || "",
-      language: voice.language || VoiceLanguageEnum.ENGLISH,
-      gender: voice.gender || VoiceGenderEnum.NEUTRAL,
-      isPublic: voice.isPublic || false,
-      description: voice.description || "",
-      accent: voice.accent || "",
+      id: voice?.id || "",
+      name: voice?.name || "",
+      language: voice?.language || VoiceLanguageEnum.ENGLISH,
+      gender: voice?.gender || VoiceGenderEnum.NEUTRAL,
+      isPublic: voice?.isPublic || false,
+      description: voice?.description || "",
+      accent: voice?.accent || "",
     },
   });
 
   const onSubmit = (data: UpdateVoicePayloadT) => {
     updateVoiceMutation(data, {
       onSuccess: (response) => {
-        onUpdated(response.data as VoiceT);
         setIsSaved(true);
         setTimeout(() => {
           setIsSaved(false);
