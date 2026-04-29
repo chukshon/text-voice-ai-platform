@@ -35,7 +35,12 @@ const baseVoiceSchema = z.object({
 
 export const createVoiceSchema = baseVoiceSchema;
 
-export const updateVoiceSchema = baseVoiceSchema.omit({ category: true }).partial();
+export const updateVoiceSchema = baseVoiceSchema
+  .omit({ category: true })
+  .partial()
+  .extend({
+    id: z.string().min(1, "ID is required"),
+  });
 
 export type CreateVoicePayloadT = z.input<typeof createVoiceSchema>;
 export type UpdateVoicePayloadT = z.input<typeof updateVoiceSchema>;

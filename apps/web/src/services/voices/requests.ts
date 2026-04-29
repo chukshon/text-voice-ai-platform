@@ -21,7 +21,7 @@ export const createVoiceRequest = async (
 };
 
 export const updateVoiceRequest = async (
-  payload: UpdateVoicePayloadT & { id: string },
+  payload: UpdateVoicePayloadT,
 ): Promise<UpdateVoiceResponseT> => {
   const { data } = await api.put<UpdateVoiceResponseT>(`/voices/${payload.id}`, payload);
   return data;

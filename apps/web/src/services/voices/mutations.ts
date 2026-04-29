@@ -21,12 +21,10 @@ export const useCreateVoiceMutation = () => {
 
 export const useUpdateVoiceMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<UpdateVoiceResponseT, ApiErrorResponseT, UpdateVoicePayloadT & { id: string }>(
-    {
-      mutationFn: updateVoiceRequest,
-      onSuccess: (data) => {
-        queryClient.invalidateQueries({ queryKey: ["get-voices"] });
-      },
+  return useMutation<UpdateVoiceResponseT, ApiErrorResponseT, UpdateVoicePayloadT>({
+    mutationFn: updateVoiceRequest,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["get-voices"] });
     },
-  );
+  });
 };
