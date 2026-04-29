@@ -1,8 +1,8 @@
 import { ApiSuccessResponseT, ApiPaginationResponseT } from "@/types/api";
-import { VoiceCategoryEnum, VoiceGenderEnum } from "@repo/db";
+import { VoiceCategoryEnum, VoiceGenderEnum, VoiceLanguageEnum } from "@/constants/voice";
 
 export interface VoiceT {
-  language: string;
+  language: VoiceLanguageEnum;
   category: VoiceCategoryEnum;
   gender: VoiceGenderEnum;
   id: string;
@@ -20,5 +20,7 @@ export interface VoiceT {
 export type GetLibraryResponseT = ApiSuccessResponseT<ApiPaginationResponseT<VoiceT>>;
 
 export type CreateVoiceResponseT = ApiSuccessResponseT<VoiceT>;
+
+export type UpdateVoiceResponseT = ApiSuccessResponseT<VoiceT>;
 
 export type GetVoicesResponseT = ApiSuccessResponseT<VoiceT[]>;
