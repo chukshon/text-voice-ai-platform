@@ -14,3 +14,10 @@ export interface VoiceSampleT {
 export type CreateVoiceSampleResponseT = ApiSuccessResponseT<VoiceSampleT>;
 
 export type GetVoiceSamplesResponseT = ApiSuccessResponseT<VoiceSampleT[]>;
+
+export type DeleteVoiceSampleResponseT = ApiSuccessResponseT<VoiceSampleT>;
+
+export type DeleteVoiceSamplePayloadT = {
+  voiceId: string;
+  sampleId: string;
+};

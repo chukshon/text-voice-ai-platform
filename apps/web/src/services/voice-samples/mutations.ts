@@ -1,6 +1,10 @@
-import { CreateVoiceSampleResponseT } from "./types";
+import {
+  CreateVoiceSampleResponseT,
+  DeleteVoiceSamplePayloadT,
+  DeleteVoiceSampleResponseT,
+} from "./types";
 import { CreateVoiceSamplePayloadT } from "@/schema/voice-sample.schema";
-import { createVoiceSampleRequest } from "./requests";
+import { createVoiceSampleRequest, deleteVoiceSampleRequest } from "./requests";
 import { ApiErrorResponseT } from "@/types/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -15,6 +19,16 @@ export const useCreateVoiceSampleMutation = () => {
     },
     onError: (error) => {
       toast.error(error.message);
+    },
+  });
+};
+
+export const useDeleteVoiceSampleMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<DeleteVoiceSampleResponseT, ApiErrorResponseT, DeleteVoiceSamplePayloadT>({
+    mutationFn: deleteVoiceSampleRequest,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["voice-samples"] });
     },
   });
 };
