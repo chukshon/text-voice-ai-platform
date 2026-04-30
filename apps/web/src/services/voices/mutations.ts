@@ -19,7 +19,9 @@ export const useCreateVoiceMutation = () => {
   return useMutation<CreateVoiceResponseT, ApiErrorResponseT, CreateVoicePayloadT>({
     mutationFn: createVoiceRequest,
     onSuccess: (data) => {
+      toast.success("Voice created successfully");
       queryClient.invalidateQueries({ queryKey: ["get-voices"] });
+      queryClient.invalidateQueries({ queryKey: ["get-library"] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -32,7 +34,10 @@ export const useUpdateVoiceMutation = () => {
   return useMutation<UpdateVoiceResponseT, ApiErrorResponseT, UpdateVoicePayloadT>({
     mutationFn: updateVoiceRequest,
     onSuccess: (data) => {
+      toast.success("Voice updated successfully");
       queryClient.invalidateQueries({ queryKey: ["get-voices"] });
+      queryClient.invalidateQueries({ queryKey: ["get-voice-by-id"] });
+      queryClient.invalidateQueries({ queryKey: ["get-library"] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -45,7 +50,9 @@ export const useDeleteVoiceMutation = () => {
   return useMutation<DeleteVoiceResponseT, ApiErrorResponseT, string>({
     mutationFn: deleteVoiceRequest,
     onSuccess: (data) => {
+      toast.success("Voice deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["get-voices"] });
+      queryClient.invalidateQueries({ queryKey: ["get-library"] });
     },
     onError: (error) => {
       toast.error(error.message);

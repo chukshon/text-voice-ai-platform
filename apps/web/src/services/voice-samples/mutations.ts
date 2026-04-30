@@ -16,7 +16,8 @@ export const useCreateVoiceSampleMutation = () => {
     mutationFn: createVoiceSampleRequest,
     onSuccess: (data) => {
       toast.success("Voice sample uploaded successfully");
-      queryClient.invalidateQueries({ queryKey: ["voice-samples"] });
+      queryClient.invalidateQueries({ queryKey: ["get-voice-samples"] });
+      queryClient.invalidateQueries({ queryKey: ["get-voice-by-id"] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -29,7 +30,12 @@ export const useDeleteVoiceSampleMutation = () => {
   return useMutation<DeleteVoiceSampleResponseT, ApiErrorResponseT, DeleteVoiceSamplePayloadT>({
     mutationFn: deleteVoiceSampleRequest,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["voice-samples"] });
+      toast.success("Voice sample deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["get-voice-samples"] });
+      queryClient.invalidateQueries({ queryKey: ["get-voice-by-id"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 };

@@ -13,7 +13,7 @@ import { GetLibraryQueryT } from "@/schema/voices.schema";
 
 export const useGetLibrary = (getLibraryQuery: GetLibraryQueryT) => {
   return useQuery<GetLibraryResponseT>({
-    queryKey: ["library", getLibraryQuery],
+    queryKey: ["get-library", getLibraryQuery],
     queryFn: () => getLibraryRequest(getLibraryQuery),
   });
 };

@@ -4,7 +4,7 @@ import { getVoiceSamplesRequest } from "./requests";
 
 export const useGetVoiceSamples = (voiceId: string) => {
   return useQuery<GetVoiceSamplesResponseT>({
-    queryKey: ["voice-samples", voiceId],
+    queryKey: ["get-voice-samples", voiceId],
     queryFn: () => getVoiceSamplesRequest(voiceId),
   });
 };
