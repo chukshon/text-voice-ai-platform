@@ -21,3 +21,17 @@ export enum JobStatus {
   COMPLETED = "completed",
   FAILED = "failed",
 }
+
+export enum JobType {
+  TTS = "tts",
+  CLONE = "clone",
+}
+
+export enum ALLOWED_OUTPUT_ENUM {
+  WAV = "wav",
+  MP3 = "mp3",
+  OGG = "ogg",
+  FLAC = "flac",
+  MP4 = "mp4",
+  WEBM = "webm",
+}
