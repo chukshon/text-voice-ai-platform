@@ -9,17 +9,17 @@ interface VoiceCardProps {
   voice: VoiceT;
   onChange: (voice: VoiceT) => void;
   setOpen: (open: boolean) => void;
-  setSearch: (search: string) => void;
+  handleSearch: (search: string) => void;
   selected: boolean;
 }
-const VoiceCard = ({ voice, onChange, setOpen, setSearch, selected }: VoiceCardProps) => {
+const VoiceCard = ({ voice, onChange, setOpen, handleSearch, selected }: VoiceCardProps) => {
   return (
     <button
       type="button"
       onClick={() => {
         onChange(voice);
         setOpen(false);
-        setSearch("");
+        handleSearch("");
       }}
       className={`flex w-full items-center gap-3 px-3 py-2 text-left transition-colors hover:bg-foreground/[0.04] ${selected ? "bg-foreground/[0.03]" : ""}`}
     >
