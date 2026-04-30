@@ -1,15 +1,18 @@
 "use client";
+import { toast } from "react-hot-toast";
+import { useRouter } from "nextjs-toploader/app";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+
+import { ROUTES } from "@/constants";
+
 import { registerInputSchema, RegisterInputT } from "@/schema/auth.schema";
+import { useRegisterMutation } from "@/services/auth/mutations";
+
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useRegisterMutation } from "@/services/auth/mutations";
-import { toast } from "react-hot-toast";
-import { useRouter } from "nextjs-toploader/app";
-import { ROUTES } from "@/constants";
 
 const RegisterForm = () => {
   const router = useRouter();
