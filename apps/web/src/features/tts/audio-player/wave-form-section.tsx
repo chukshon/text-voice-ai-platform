@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type WaveFormSectionProps = {
   ready: boolean;
-  error: string | null;
-  containerRef: React.RefObject<HTMLDivElement>;
+  error: boolean;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   playing: boolean;
 };
 const WaveFormSection = ({ ready, error, containerRef, playing }: WaveFormSectionProps) => {

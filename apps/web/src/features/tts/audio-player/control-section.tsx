@@ -21,7 +21,6 @@ type ControlSectionProps = {
   currentTime: number;
   duration: number;
   speedIdx: number;
-  volumeIcon: React.ReactNode;
 };
 const ControlSection = ({
   error,
