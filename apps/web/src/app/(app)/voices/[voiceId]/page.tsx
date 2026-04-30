@@ -1,20 +1,23 @@
 "use client";
 import React, { useState } from "react";
-import { useGetVoiceById } from "@/services/voices/queries";
-import LoadingState from "@/features/voices/my-voices/voice-details/loading-state";
-import EmptyState from "@/features/voices/my-voices/voice-details/empty-state";
-import Header from "@/features/voices/my-voices/voice-details/header";
 import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
+
+import { useGetVoiceById } from "@/services/voices/queries";
+import { useDeleteVoiceMutation } from "@/services/voices/mutations";
+
+import LoadingState from "@/features/voices/my-voices/voice-details/loading-state";
+import EmptyState from "@/features/voices/my-voices/voice-details/empty-state";
+import BackButton from "@/features/voices/my-voices/voice-details/back-button";
+import Header from "@/features/voices/my-voices/voice-details/header";
 import VoiceDetailsTab from "@/features/voices/my-voices/voice-details/voice-details-tab";
 import DeleteVoiceDialog from "@/features/voices/my-voices/voice-details/delete-voice-dialog";
-import { useDeleteVoiceMutation } from "@/services/voices/mutations";
-import BackButton from "@/features/voices/my-voices/voice-details/back-button";
 
 const VoiceDetailsPage = ({ params }: { params: Promise<{ voiceId: string }> }) => {
   const resolvedParams = React.use(params);
   const router = useRouter();
   const voiceId = resolvedParams.voiceId;
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { data: voice, isLoading: isLoadingVoice } = useGetVoiceById(voiceId);
