@@ -40,3 +40,10 @@ export const VOICE_LANGUAGE_OPTIONS = [
   { label: "German", value: VoiceLanguageEnum.GERMAN },
   { label: "Japanese", value: VoiceLanguageEnum.JAPANESE },
 ];
+
+export enum VoiceRecordingStateEnum {
+  IDLE = "IDLE",
+  REQUESTING = "REQUESTING",
+  RECORDING = "RECORDING",
+  RECORDED = "RECORDED",
+}
