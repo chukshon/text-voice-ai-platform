@@ -1,8 +1,10 @@
+import { Globe } from "lucide-react";
+
+import { VoiceCategoryEnum } from "@/constants/voice";
+import { VoiceGenderEnum } from "@/constants/voice";
+
 import { Badge } from "@/components/ui/badge";
 import { VoiceAvatar } from "@/components/ui/voice-avatar";
-import { VoiceCategoryEnum } from "@repo/db";
-import { VoiceGenderEnum } from "@repo/db";
-import { Globe } from "lucide-react";
 
 interface VoiceCardProps {
   name: string;

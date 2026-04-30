@@ -1,4 +1,3 @@
-import React from "react";
 import { DASHBOARD_QUICK_ACTIONS } from "@/constants";
 import Link from "next/link";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +5,6 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 const QuickActionSection = () => {
   return (
     <>
-      {/* Quick actions */}
       <h2 className="mb-4 text-sm font-medium text-muted-foreground">Quick Actions</h2>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

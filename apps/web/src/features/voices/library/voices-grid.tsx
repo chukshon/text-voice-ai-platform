@@ -1,7 +1,8 @@
 import { VoiceT } from "@/services/voices/types";
-import VoiceCard from "@/features/voices/library/voice-card";
+
 import EmptyState from "@/features/voices/library/empty-state";
 import LoadingState from "@/features/voices/loading-state";
+import VoiceCard from "@/features/voices/library/voice-card";
 
 interface VoicesGridProps {
   isLoading: boolean;
