@@ -14,3 +14,10 @@ export const SPEEDS = [
   TTS_SPEEDS.FASTER,
   TTS_SPEEDS.FASTEST,
 ];
+
+export enum JobStatus {
+  PENDING = "pending",
+  PROCESSING = "processing",
+  COMPLETED = "completed",
+  FAILED = "failed",
+}
