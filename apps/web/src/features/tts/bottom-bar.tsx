@@ -4,7 +4,7 @@ import { VoiceT } from "@/services/voices/types";
 import { Button } from "@/components/ui/button";
 
 interface BottomBarProps {
-  voice: VoiceT;
+  voice?: VoiceT | null;
   text: string;
   setText: (text: string) => void;
   handleSubmit: () => void;

@@ -4,7 +4,7 @@ import JobStatusDisplay from "./job-status-display";
 import { AudioFileInfoT, JobT } from "@/services/tts/types";
 
 interface EditorBodyProps {
-  textareaRef: React.RefObject<HTMLTextAreaElement>;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   text: string;
   setText: (text: string) => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
