@@ -1,5 +1,4 @@
 import { Mic } from "lucide-react";
-import React from "react";
 
 const EmptyState = () => {
   return (

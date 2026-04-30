@@ -2,10 +2,12 @@
 
 import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
-import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
+
 import { VoiceRecordingStateEnum } from "@/constants/voice";
+
 import { useCreateVoiceSampleMutation } from "@/services/voice-samples/mutations";
-import { VoiceSampleT } from "@/services/voice-samples/types";
+import { useVoiceRecorder } from "@/hooks/use-voice-recorder";
+
 import ErrorState from "./error-state";
 import IdleState from "./idle-state";
 import RequestingState from "./requesting-state";

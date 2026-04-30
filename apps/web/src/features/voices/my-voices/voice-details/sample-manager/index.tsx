@@ -1,12 +1,14 @@
-import React, { useCallback, useRef, useState } from "react";
-import SampleUpload from "./sample-upload";
-import SampleList from "./sample-list";
+import React, { useRef, useState } from "react";
+
 import {
   useCreateVoiceSampleMutation,
   useDeleteVoiceSampleMutation,
 } from "@/services/voice-samples/mutations";
 import { useGetVoiceSamples } from "@/services/voice-samples/queries";
+
 import { VoiceRecorder } from "./voice-recorder/voice-recorder";
+import SampleUpload from "./sample-upload";
+import SampleList from "./sample-list";
 
 interface SampleManagerProps {
   voiceId: string;
@@ -14,11 +16,11 @@ interface SampleManagerProps {
 const SampleManager = ({ voiceId }: SampleManagerProps) => {
   const sampleFileRef = useRef<HTMLInputElement>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
   const { data: voiceSamples, isLoading: isLoadingVoiceSamples } = useGetVoiceSamples(voiceId);
   const { mutate: createVoiceSample, isPending: isCreatingVoiceSample } =
     useCreateVoiceSampleMutation();
-  const { mutate: deleteVoiceSample, isPending: isDeletingVoiceSample } =
-    useDeleteVoiceSampleMutation();
+  const { mutate: deleteVoiceSample } = useDeleteVoiceSampleMutation();
 
   const handleUploadSample = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -42,15 +44,14 @@ const SampleManager = ({ voiceId }: SampleManagerProps) => {
   return (
     <div>
       <VoiceRecorder voiceId={voiceId} />
+
       <div className="space-y-4">
-        {/* Upload area */}
         <SampleUpload
           isUploadingSample={isCreatingVoiceSample}
           handleUploadSample={handleUploadSample}
           fileRef={sampleFileRef}
         />
 
-        {/* Sample list */}
         <SampleList
           samples={voiceSamples?.data}
           deletingId={deletingId}

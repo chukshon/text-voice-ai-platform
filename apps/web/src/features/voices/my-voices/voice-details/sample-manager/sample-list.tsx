@@ -1,8 +1,9 @@
 import React from "react";
+
+import { VoiceSampleT } from "@/services/voice-samples/types";
 import SampleCard from "./sample-card";
 import EmptyState from "./empty-state";
 import LoadingState from "./loading-state";
-import { VoiceSampleT } from "@/services/voice-samples/types";
 
 interface SampleListProps {
   samples?: VoiceSampleT[];

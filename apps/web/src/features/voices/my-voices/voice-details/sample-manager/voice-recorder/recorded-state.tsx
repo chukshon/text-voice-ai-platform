@@ -2,8 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mic, Play, Pause, Trash2, RotateCcw, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { formatTime, formatBytes } from "@/lib/utils/voice";
+
+import { Button } from "@/components/ui/button";
 
 interface RecordedStateProps {
   audioBlob: Blob;
