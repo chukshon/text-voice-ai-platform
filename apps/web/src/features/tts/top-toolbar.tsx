@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/select";
 import { VoiceT } from "@/services/voices/types";
 import VoicePicker from "./voice-picker";
+import { ALLOWED_OUTPUT_ENUM } from "@/constants/tts";
 
 interface TopToolbarProps {
-  voice: VoiceT;
+  voice?: VoiceT | null;
   setVoice: (voice: VoiceT) => void;
-  accessToken: string;
-  format: string;
-  setFormat: (format: string) => void;
+  format: ALLOWED_OUTPUT_ENUM.MP3 | ALLOWED_OUTPUT_ENUM.WAV;
+  setFormat: (format: ALLOWED_OUTPUT_ENUM.MP3 | ALLOWED_OUTPUT_ENUM.WAV) => void;
   showHistory: boolean;
   setShowHistory: (showHistory: boolean) => void;
 }
@@ -23,7 +23,6 @@ interface TopToolbarProps {
 const TopToolbar = ({
   voice,
   setVoice,
-  accessToken,
   format,
   setFormat,
   showHistory,
@@ -38,7 +37,7 @@ const TopToolbar = ({
         </div>
         <div className="h-4 w-px bg-border/30" />
         <div className="w-[280px]">
-          <VoicePicker value={voice} onChange={setVoice} token={accessToken || undefined} />
+          <VoicePicker value={voice} onChange={setVoice} />
         </div>
       </div>
 

@@ -11,11 +11,10 @@ import Search from "./search";
 import VoiceCard from "./voice-card";
 
 interface VoicePickerProps {
-  value: VoiceT | null;
+  value?: VoiceT | null;
   onChange: (voice: VoiceT) => void;
-  token?: string;
 }
-const VoicePicker = ({ value, onChange, token }: VoicePickerProps) => {
+const VoicePicker = ({ value, onChange }: VoicePickerProps) => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState<GetLibraryQueryT>({
     searchKeyword: useDebounce("", 500),

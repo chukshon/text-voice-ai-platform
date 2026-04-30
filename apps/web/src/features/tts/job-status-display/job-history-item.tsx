@@ -1,15 +1,9 @@
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { JobStatus } from "@/constants/tts";
+import { JobT } from "@/services/tts/types";
 
 interface JobHistoryItemProps {
-  job: {
-    id: string;
-    status: JobStatus;
-    inputText?: string | null;
-    error: string | null;
-    createdAt: string;
-    updatedAt: string;
-  };
+  job: JobT;
   isActive?: boolean;
   onClick?: () => void;
 }

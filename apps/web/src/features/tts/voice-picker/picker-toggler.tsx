@@ -7,7 +7,7 @@ import { VoiceT } from "@/services/voices/types";
 interface PickerTogglerProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  value: VoiceT | null;
+  value?: VoiceT | null;
 }
 const PickerToggler = ({ isOpen, setOpen, value }: PickerTogglerProps) => {
   return (
