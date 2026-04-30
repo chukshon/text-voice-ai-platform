@@ -15,6 +15,7 @@ export const useCreateVoiceSampleMutation = () => {
   return useMutation<CreateVoiceSampleResponseT, ApiErrorResponseT, CreateVoiceSamplePayloadT>({
     mutationFn: createVoiceSampleRequest,
     onSuccess: (data) => {
+      toast.success("Voice sample uploaded successfully");
       queryClient.invalidateQueries({ queryKey: ["voice-samples"] });
     },
     onError: (error) => {
