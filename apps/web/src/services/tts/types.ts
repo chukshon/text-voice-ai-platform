@@ -22,8 +22,14 @@ export interface AudioFileInfoT {
   storagePath: string;
 }
 
-export type CreateTTSJobResponseT = ApiSuccessResponseT<JobT>;
+export interface JobResponseT {
+  job: JobT;
+  audioFile: AudioFileInfoT | null;
+  downloadUrl: string | null;
+}
 
-export type GetTTSJobsResponseT = ApiSuccessResponseT<JobT[]>;
+export type CreateTTSJobResponseT = ApiSuccessResponseT<JobResponseT>;
 
-export type GetTTSJobByIdResponseT = ApiSuccessResponseT<JobT>;
+export type GetTTSJobsResponseT = ApiSuccessResponseT<JobResponseT[]>;
+
+export type GetTTSJobByIdResponseT = ApiSuccessResponseT<JobResponseT>;
