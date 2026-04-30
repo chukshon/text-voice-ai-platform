@@ -1,8 +1,10 @@
-import { Badge } from "@/components/ui/badge";
-import { VoiceAvatar } from "@/components/ui/voice-avatar";
-import { ROUTES } from "@/constants";
 import { Globe } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
+
+import { ROUTES } from "@/constants";
+
+import { Badge } from "@/components/ui/badge";
+import { VoiceAvatar } from "@/components/ui/voice-avatar";
 
 interface VoiceCardProps {
   voiceId: string;

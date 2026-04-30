@@ -1,8 +1,10 @@
+import { Globe, Trash2 } from "lucide-react";
+
+import { VoiceT } from "@/services/voices/types";
+
 import { Button } from "@/components/ui/button";
 import { VoiceAvatar } from "@/components/ui/voice-avatar";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Trash2 } from "lucide-react";
-import { VoiceT } from "@/services/voices/types";
 
 type HeaderProps = {
   voice?: VoiceT;

@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
   handleCreateVoice: () => void;

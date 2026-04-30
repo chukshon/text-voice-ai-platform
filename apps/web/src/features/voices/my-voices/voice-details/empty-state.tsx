@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import React from "react";
 import { useRouter } from "nextjs-toploader/app";
 import { ROUTES } from "@/constants";
+
+import { Button } from "@/components/ui/button";
 
 const EmptyState = () => {
   const router = useRouter();

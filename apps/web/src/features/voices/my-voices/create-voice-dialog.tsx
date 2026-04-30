@@ -1,7 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
 import { CreateVoicePayloadT, createVoiceSchema } from "@/schema/voices.schema";
 import { VoiceCategoryEnum, VoiceGenderEnum, VoiceLanguageEnum } from "@/constants/voice";
+
 import {
   Dialog,
   DialogContent,
@@ -11,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import CreateVoiceForm from "@/features/voices/my-voices/create-voice-form";
 import { useCreateVoiceMutation } from "@/services/voices/mutations";
-import { toast } from "react-hot-toast";
 
 interface CreateVoiceDialogProps {
   open: boolean;
@@ -55,7 +56,6 @@ const CreateVoiceDialog = ({ open, onOpenChange, onCreated }: CreateVoiceDialogP
         handleReset();
         onCreated(response.data?.id as string);
         handleOpenChange(false);
-        toast.success("Voice created successfully");
       },
     });
   };

@@ -1,8 +1,8 @@
-import React from "react";
+import { VoiceT } from "@/services/voices/types";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditVoiceForm from "@/features/voices/my-voices/voice-details/edit-voice.form";
 import SampleManager from "@/features/voices/my-voices/voice-details/sample-manager";
-import { VoiceT } from "@/services/voices/types";
 
 interface VoiceDetailsTabProps {
   voice?: VoiceT;

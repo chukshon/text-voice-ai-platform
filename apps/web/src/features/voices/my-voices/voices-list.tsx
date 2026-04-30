@@ -1,7 +1,8 @@
 import { VoiceT } from "@/services/voices/types";
+
 import LoadingState from "@/features/voices/loading-state";
 import EmptyState from "@/features/voices/my-voices/empty-state";
-import VoiceCard from "./voice-card";
+import VoiceCard from "@/features/voices/my-voices/voice-card";
 
 interface VoicesListProps {
   voices?: VoiceT[];

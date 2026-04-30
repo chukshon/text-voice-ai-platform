@@ -1,5 +1,4 @@
 import { ArrowLeft } from "lucide-react";
-import React from "react";
 
 interface BackButtonProps {
   handleBackToVoices: () => void;
