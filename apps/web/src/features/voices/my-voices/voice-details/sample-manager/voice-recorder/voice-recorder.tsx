@@ -14,10 +14,9 @@ import RecordedState from "./recorded-state";
 
 interface VoiceRecorderProps {
   voiceId: string;
-  onUploaded: (sample: VoiceSampleT) => void;
 }
 
-export function VoiceRecorder({ voiceId, onUploaded }: VoiceRecorderProps) {
+export function VoiceRecorder({ voiceId }: VoiceRecorderProps) {
   const { mutate: createVoiceSample, isPending: isUploadingVoiceSample } =
     useCreateVoiceSampleMutation();
   const {
@@ -42,28 +41,34 @@ export function VoiceRecorder({ voiceId, onUploaded }: VoiceRecorderProps) {
       { file, voiceId },
       {
         onSuccess: (data) => {
-          onUploaded(data?.data as VoiceSampleT);
           discard();
         },
       },
     );
-  }, [audioBlob, voiceId, onUploaded, discard]);
+  }, [audioBlob, voiceId, discard]);
 
   return (
     <AnimatePresence mode="wait">
       {error && (
-        <ErrorState key="error" message={error} onRetry={startRecording} onDismiss={discard} />
+        <ErrorState
+          key={VoiceRecordingStateEnum.ERROR}
+          message={error}
+          onRetry={startRecording}
+          onDismiss={discard}
+        />
       )}
 
       {!error && recorderState === VoiceRecordingStateEnum.IDLE && (
-        <IdleState key="idle" onRecord={startRecording} />
+        <IdleState key={VoiceRecordingStateEnum.IDLE} onRecord={startRecording} />
       )}
 
-      {recorderState === VoiceRecordingStateEnum.REQUESTING && <RequestingState key="requesting" />}
+      {recorderState === VoiceRecordingStateEnum.REQUESTING && (
+        <RequestingState key={VoiceRecordingStateEnum.REQUESTING} />
+      )}
 
       {recorderState === VoiceRecordingStateEnum.RECORDING && (
         <RecordingState
-          key="recording"
+          key={VoiceRecordingStateEnum.RECORDING}
           elapsedMs={elapsedMs}
           analyserNode={analyserNode}
           onStop={stopRecording}
@@ -72,7 +77,7 @@ export function VoiceRecorder({ voiceId, onUploaded }: VoiceRecorderProps) {
 
       {recorderState === VoiceRecordingStateEnum.RECORDED && audioBlob && (
         <RecordedState
-          key="recorded"
+          key={VoiceRecordingStateEnum.RECORDED}
           audioBlob={audioBlob}
           elapsedMs={elapsedMs}
           onDiscard={discard}

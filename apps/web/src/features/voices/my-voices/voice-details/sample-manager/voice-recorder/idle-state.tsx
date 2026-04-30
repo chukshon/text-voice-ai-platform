@@ -10,7 +10,7 @@ const IdleState = ({ onRecord }: { onRecord: () => void }) => {
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
       transition={{ duration: 0.2 }}
-      className="flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-border/50 py-8 transition-colors hover:border-border hover:bg-foreground/[0.01]"
+      className="cursor-pointer flex w-full flex-col items-center justify-center rounded-lg border border-dashed border-border/50 py-8 transition-colors hover:border-border hover:bg-foreground/[0.01]"
     >
       <Mic className="mb-2 size-6 text-muted-foreground/20" />
       <span className="text-xs font-medium text-muted-foreground/50">Record a voice sample</span>
