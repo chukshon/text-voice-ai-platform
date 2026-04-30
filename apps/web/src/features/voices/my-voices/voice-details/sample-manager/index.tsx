@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import SampleUpload from "./sample-upload";
 import SampleList from "./sample-list";
 import {
@@ -6,6 +6,7 @@ import {
   useDeleteVoiceSampleMutation,
 } from "@/services/voice-samples/mutations";
 import { useGetVoiceSamples } from "@/services/voice-samples/queries";
+import { VoiceRecorder } from "./voice-recorder/voice-recorder";
 
 interface SampleManagerProps {
   voiceId: string;
@@ -40,6 +41,7 @@ const SampleManager = ({ voiceId }: SampleManagerProps) => {
 
   return (
     <div>
+      <VoiceRecorder voiceId={voiceId} />
       <div className="space-y-4">
         {/* Upload area */}
         <SampleUpload
