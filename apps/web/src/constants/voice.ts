@@ -46,4 +46,5 @@ export enum VoiceRecordingStateEnum {
   REQUESTING = "REQUESTING",
   RECORDING = "RECORDING",
   RECORDED = "RECORDED",
+  ERROR = "ERROR",
 }
