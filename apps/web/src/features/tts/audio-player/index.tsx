@@ -12,7 +12,7 @@ import WaveFormSection from "./wave-form-section";
 type AudioPlayerProps = {
   src: string;
   fileName: string;
-  durationMs: number;
+  durationMs: number | null;
   sizeBytes: number;
   mimeType: string;
 };
