@@ -48,9 +48,9 @@ const JobHistoryItem = ({ job, isActive, onClick }: JobHistoryItemProps) => {
         <div className="mt-0.5 flex items-center gap-1.5">
           <span
             className={`text-[10px] ${
-              job.status === "completed"
+              job.status === JobStatus.COMPLETED
                 ? "text-emerald-500/60"
-                : job.status === "failed"
+                : job.status === JobStatus.FAILED
                   ? "text-destructive/60"
                   : "text-muted-foreground/40"
             }`}

@@ -2,7 +2,7 @@
 
 A full-stack web application for converting text into speech: you sign up, browse or create voices, generate audio, and download it. Under the hood it is a **pnpm monorepo**—a Next.js app talks to **Express** services backed by **PostgreSQL** and **MinIO**.
 
-**On how voice synthesis is scheduled**: the **worker service** accepts TTS requests over HTTP, **persists job state** in the database, then **offloads execution** to a **RabbitMQ** queue so the request path stays fast while Kokoro inference runs **asynchronously**. A **Python FastAPI** service performs the actual **text-to-speech** work; the worker is the **orchestrator** between the queue, Postgres, object storage, and that engine.
+**How voice synthesis is scheduled**: The **worker service** accepts TTS requests over HTTP, **persists job state** in the database, then **offloads execution** to a **RabbitMQ** queue so the request path stays fast while Kokoro runs **asynchronously**. A **Python FastAPI** service performs the actual **text-to-speech** work; the worker is the **orchestrator** between the queue, Postgres, object storage, and that engine.
 
 ---
 
@@ -29,15 +29,17 @@ A full-stack web application for converting text into speech: you sign up, brows
 
 At a high level:
 
-- **Identity**: Users register, log in, and get JWT access tokens (with refresh). They can also create **API keys** (prefix `xi_`) and use those as `Bearer` tokens the same way as a normal JWT—handy for scripts or future automation.
+- **Auth**: Users register, log in, and get JWT access tokens (with refresh). They can also create **API keys** (prefix `xi_`) and use those as `Bearer` tokens the same way as a normal JWT—handy for scripts or future automation.
+
 - **Voices**: There is a **public library** of premade voices (seeded in the database) and **per-user voices** you can create, edit, or delete. You can attach **audio samples** to a voice (uploaded to MinIO) for richer metadata and future cloning-style workflows.
+
 - **Text-to-speech**: You submit text, a **voice id**, and an **output format** (`mp3` or `wav`). The **worker** API enforces validation, writes a `**VoiceJob`** row (initially `**pending**`), and **publishes** a **message** to RabbitMQ—classic **request acceptance** decoupled from **work execution**. A **consumer** in the worker process **dequeues** the message, transitions the job to `**processing`**, calls the **TTS microservice**, streams the result to **MinIO**, then marks the job `**completed`** (or `**failed**` with an error string). The UI **polls** job status and, when done, uses a **presigned GET** for playback or download.
 
-So: **text in → queue → asynchronous synthesis → object storage**, with **Postgres as the source of truth** for job lifecycle and **RabbitMQ** buffering **backpressure** when synthesis slows down.
+The flow: **text comes in, waits in a queue, gets turned into audio in the background, then gets saved to storage**. **Postgres** keeps the real status of each job, and **RabbitMQ** keeps jobs until workers are ready.
 
 ---
 
-## Features
+# Features
 
 ### Authentication and account
 
@@ -120,7 +122,7 @@ flowchart LR
 
 **Request path (example):** the browser calls `http://localhost/api/auth/login`. Traefik matches `PathPrefix(/api/auth)`, strips the `/api` prefix, and forwards to the auth service as `/auth/login`.
 
-**TTS path (high level):** `POST /api/tts` hits the worker’s HTTP surface; the handler **persists** state and **enqueues** work. A **background consumer** on the same service **pulls** messages, performs **synthesis** and **upload**, then **commits** outcomes to Postgres. That is **asynchronous processing** with a **broker-backed work queue**—see the next section for vocabulary and semantics.
+**TTS path (high level):** `POST /api/tts` hits the worker’s HTTP surface; the handler **persists** state and **enqueues** work. A **background consumer** on the same service **pulls** messages, performs **synthesis** and **upload**, then **commits** outcomes to Postgres
 
 ---
 
