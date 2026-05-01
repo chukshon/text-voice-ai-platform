@@ -16,6 +16,8 @@ const envSchema = z.object({
     .enum(["true", "false"])
     .transform((v) => v === "true")
     .default("false"),
+
+  FRONTEND_URL: z.string().url(),
 });
 
 type EnvType = z.infer<typeof envSchema>;

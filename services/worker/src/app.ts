@@ -3,6 +3,7 @@ import { errorHandlerMiddleware } from "@repo/common";
 import helmet from "helmet";
 import { registerRoutes } from "@/routes";
 import cors from "cors";
+import { env } from "./config/env";
 
 export const createApp = (): Application => {
   const app = express();
@@ -13,7 +14,7 @@ export const createApp = (): Application => {
   app.use(express.urlencoded({ extended: true }));
   app.use(
     cors({
-      origin: ["http://localhost:3000"],
+      origin: [env.FRONTEND_URL],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: false,
