@@ -488,7 +488,7 @@ Compose also uses `POSTGRES_*`, `RABBITMQ_USER`, `RABBITMQ_PASSWORD`, etc.—see
 
 ## TTS Service
 
-The HTTP API is at `**http://localhost:8000**` when you run `**uvicorn**` locally ([§6](#6-start-the-tts-engine-python-on-your-machine)) or `**docker compose up -d tts**`.
+The HTTP API is at `**http://localhost:8000**` when you run `**uvicorn**` locally ([6](#6-start-the-tts-engine-python-on-your-machine)) or `**docker compose up -d tts**`.
 
 The **worker** reads `**TTS_SERVICE_URL`** from the **repo root\*\* `.env` (not from `services/tts/`).
 
