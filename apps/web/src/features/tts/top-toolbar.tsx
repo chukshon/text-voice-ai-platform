@@ -1,5 +1,5 @@
 import React from "react";
-import { Send, Sparkles, History, Keyboard } from "lucide-react";
+import { Send, Sparkles, History } from "lucide-react";
 import {
   Select,
   SelectTrigger,
@@ -47,8 +47,8 @@ const TopToolbar = ({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="mp3">MP3</SelectItem>
-            <SelectItem value="wav">WAV</SelectItem>
+            <SelectItem value={ALLOWED_OUTPUT_ENUM.MP3}>MP3</SelectItem>
+            <SelectItem value={ALLOWED_OUTPUT_ENUM.WAV}>WAV</SelectItem>
           </SelectContent>
         </Select>
 

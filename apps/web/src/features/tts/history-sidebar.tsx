@@ -4,7 +4,7 @@ import React from "react";
 import HistoryItem from "./job-status-display/job-history-item";
 
 interface HistorySidebarProps {
-  history: JobT[];
+  history?: JobT[];
   showHistory: boolean;
   setShowHistory: (showHistory: boolean) => void;
   currentJob: JobT | null;
@@ -29,14 +29,14 @@ const HistorySidebar = ({
         >
           <div className="flex items-center justify-between border-b border-border/30 px-4 py-3">
             <span className="text-xs font-semibold">History</span>
-            <span className="text-[10px] text-muted-foreground/30">{history.length} jobs</span>
+            <span className="text-[10px] text-muted-foreground/30">{history?.length} jobs</span>
           </div>
           <div className="flex-1 overflow-y-auto p-2">
-            {history.length === 0 ? (
+            {history?.length === 0 ? (
               <div className="py-8 text-center text-xs text-muted-foreground/30">No jobs yet</div>
             ) : (
               <div className="space-y-0.5">
-                {history.map((job) => (
+                {history?.map((job) => (
                   <HistoryItem
                     key={job.id}
                     job={job}
