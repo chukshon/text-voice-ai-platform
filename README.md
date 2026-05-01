@@ -102,7 +102,7 @@ flowchart LR
   end
 
   subgraph ai [TTS]
-    TTS[FastAPI Kokoro :8000]
+    TTS[Python FastAPI Kokoro :8000]
   end
 
   Web -->|"/api/..."| Traefik
