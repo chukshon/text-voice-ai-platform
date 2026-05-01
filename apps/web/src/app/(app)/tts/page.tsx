@@ -41,37 +41,6 @@ const TTSPage = () => {
   });
   const { mutate: createTTSJobMutation } = useCreateTTSJobMutation();
 
-  useEffect(() => {
-    if (!currentJob?.id) return;
-    if (!ttsJob?.success || !ttsJob.data) return;
-    if (ttsJob.data.job.id !== currentJob.id) return;
-
-    setCurrentJob(ttsJob.data.job);
-    setCurrentAudioFile(ttsJob.data.audioFile);
-    setDownloadUrl(ttsJob.data.downloadUrl);
-  }, [currentJob?.id, ttsJob]);
-
-  useEffect(() => {
-    if (!currentJob) {
-      prevJobSnapshotRef.current = null;
-      return;
-    }
-
-    const prev = prevJobSnapshotRef.current;
-    prevJobSnapshotRef.current = { id: currentJob.id, status: currentJob.status };
-
-    if (!prev || prev.id !== currentJob.id) return;
-
-    const wasActive =
-      prev.status === JobStatus.PENDING || prev.status === JobStatus.PROCESSING;
-    const nowTerminal =
-      currentJob.status === JobStatus.COMPLETED || currentJob.status === JobStatus.FAILED;
-
-    if (wasActive && nowTerminal) {
-      setHistory((prevList) => [currentJob, ...prevList.filter((j) => j.id !== currentJob.id)]);
-    }
-  }, [currentJob]);
-
   const handleSubmit = async () => {
     if (!voice || !text.trim() || shouldPollJob) return;
 
@@ -120,6 +89,36 @@ const TTSPage = () => {
     historyLoadedRef.current = true;
     setHistory(jobs);
   }, [ttsJobs]);
+
+  useEffect(() => {
+    if (!currentJob?.id) return;
+    if (!ttsJob?.success || !ttsJob.data) return;
+    if (ttsJob.data.job.id !== currentJob.id) return;
+
+    setCurrentJob(ttsJob.data.job);
+    setCurrentAudioFile(ttsJob.data.audioFile);
+    setDownloadUrl(ttsJob.data.downloadUrl);
+  }, [currentJob?.id, ttsJob]);
+
+  useEffect(() => {
+    if (!currentJob) {
+      prevJobSnapshotRef.current = null;
+      return;
+    }
+
+    const prev = prevJobSnapshotRef.current;
+    prevJobSnapshotRef.current = { id: currentJob.id, status: currentJob.status };
+
+    if (!prev || prev.id !== currentJob.id) return;
+
+    const wasActive = prev.status === JobStatus.PENDING || prev.status === JobStatus.PROCESSING;
+    const nowTerminal =
+      currentJob.status === JobStatus.COMPLETED || currentJob.status === JobStatus.FAILED;
+
+    if (wasActive && nowTerminal) {
+      setHistory((prevList) => [currentJob, ...prevList.filter((j) => j.id !== currentJob.id)]);
+    }
+  }, [currentJob]);
 
   // Auto-resize textarea
   useEffect(() => {
