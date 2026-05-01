@@ -113,7 +113,7 @@ export const listTTSJobsService = async (userId: string, pageNumber?: number, li
   const totalPages = Math.ceil(totalCount / pageLimit);
 
   return {
-    jobs,
+    data: jobs,
     pagination: {
       totalCount,
       totalPages,
