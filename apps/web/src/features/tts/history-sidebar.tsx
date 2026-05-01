@@ -1,6 +1,5 @@
 import { JobT } from "@/services/tts/types";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
 import HistoryItem from "./job-status-display/job-history-item";
 
 interface HistorySidebarProps {

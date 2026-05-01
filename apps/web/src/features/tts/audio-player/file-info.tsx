@@ -1,4 +1,3 @@
-import React from "react";
 import { formatBytes } from "@/lib/utils/voice";
 
 type FileInfoProps = {

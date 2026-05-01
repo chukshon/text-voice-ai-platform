@@ -1,5 +1,3 @@
-import React from "react";
-
 import { VoiceSampleT } from "@/services/voice-samples/types";
 import SampleCard from "./sample-card";
 import EmptyState from "./empty-state";

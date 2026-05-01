@@ -274,7 +274,7 @@ These are **browser URLs** (default dev server `http://localhost:3000`).
 ### 1. Clone and install
 
 ```bash
-git clone <your-fork-or-repo-url>
+git clone https://github.com/chukshon/text-voice-ai-platform.git
 cd text-voice-ai-platform
 pnpm install
 ```

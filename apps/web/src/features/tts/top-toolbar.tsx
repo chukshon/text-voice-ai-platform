@@ -1,5 +1,4 @@
-import React from "react";
-import { Send, Sparkles, History } from "lucide-react";
+import { Sparkles, History } from "lucide-react";
 import {
   Select,
   SelectTrigger,
