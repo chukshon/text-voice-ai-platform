@@ -59,10 +59,6 @@ export function useVoiceRecorder(): UseVoiceRecorderReturnT {
     chunksRef.current = [];
   }, []);
 
-  useEffect(() => {
-    return () => cleanup();
-  }, [cleanup]);
-
   const startRecording = useCallback(async () => {
     setError(null);
     setRecorderState(VoiceRecordingStateEnum.REQUESTING);
@@ -191,6 +187,10 @@ export function useVoiceRecorder(): UseVoiceRecorderReturnT {
     setElapsedMs(0);
     setError(null);
     setRecorderState(VoiceRecordingStateEnum.IDLE);
+  }, [cleanup]);
+
+  useEffect(() => {
+    return () => cleanup();
   }, [cleanup]);
 
   return {

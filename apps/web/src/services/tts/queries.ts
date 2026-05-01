@@ -8,9 +8,15 @@ export const useGetTTSJobs = () => {
     queryFn: () => getTTSJobsRequest(),
   });
 };
-export const useGetTTSJobById = (jobId: string) => {
+type UseGetTTSJobByIdOptions = {
+  refetchInterval?: number | false;
+};
+
+export const useGetTTSJobById = (jobId: string, options?: UseGetTTSJobByIdOptions) => {
   return useQuery<GetTTSJobByIdResponseT>({
     queryKey: ["get-tts-job-by-id", jobId],
     queryFn: () => getTTSJobByIdRequest(jobId),
+    enabled: !!jobId,
+    refetchInterval: options?.refetchInterval ?? false,
   });
 };

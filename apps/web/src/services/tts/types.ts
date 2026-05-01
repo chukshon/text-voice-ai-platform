@@ -6,11 +6,10 @@ export interface JobT {
   status: JobStatus;
   type: JobType;
   inputText: string | null;
+  voiceId: string;
   outputFileId: string | null;
   error: string | null;
-  metadata: any;
   createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface AudioFileInfoT {
@@ -28,8 +27,8 @@ export interface JobResponseT {
   downloadUrl: string | null;
 }
 
-export type CreateTTSJobResponseT = ApiSuccessResponseT<JobResponseT>;
+export type CreateTTSJobResponseT = ApiSuccessResponseT<JobT>;
 
-export type GetTTSJobsResponseT = ApiSuccessResponseT<JobResponseT[]>;
+export type GetTTSJobsResponseT = ApiSuccessResponseT<ApiPaginationResponseT<JobT>>;
 
 export type GetTTSJobByIdResponseT = ApiSuccessResponseT<JobResponseT>;
